@@ -15,8 +15,11 @@ umbrelOS. Oggi contiene un'app sola: **Aurora**, il server del CRM
    scrivere nelle app di Aurora — in casa è `http://umbrel.local:2960`.
 4. Su Mac, iPhone, iPad o Windows apri Aurora: **Impostazioni › Server ›
    Il mio server**, incolla l'indirizzo, **Prova il collegamento**, **Usa
-   questo server**. Fuori casa serve l'app **Tailscale** di Umbrel: l'indirizzo
-   da scrivere è quello che Tailscale dà all'Umbrel, con `:2960`.
+   questo server**. Per un iPhone o un portatile che escono di casa serve l'app
+   **Tailscale** di Umbrel (e Tailscale acceso sul dispositivo): scrivi
+   **una volta sola** l'indirizzo IP che Tailscale dà all'Umbrel, per
+   esempio `100.x.y.z:2960`, e usalo sempre, anche in casa — cambiare
+   indirizzo fa riscaricare tutti i dati.
 
 I dati stanno in `app-data/prisma-aurora/data/db` (il database) e
 `app-data/prisma-aurora/data/backup` (un backup ogni notte alle 02:00, ne
