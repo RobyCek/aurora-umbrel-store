@@ -1,0 +1,45 @@
+manifestVersion: 1
+id: prisma-aurora
+category: files
+name: Aurora
+version: "1.0.1"
+tagline: Il CRM di Prisma Informatica, sul tuo server di casa
+icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
+description: >-
+  Aurora è il gestionale dei contatti (CRM) di Prisma Informatica: persone,
+  aziende, gruppi, progetti, opportunità, appuntamenti, attività, note, posta
+  e documenti, in italiano, con le app per Mac, iPhone, iPad e Windows che
+  lavorano sempre in locale e si sincronizzano con questo server.
+
+
+  Questa app installa il server di Aurora sul tuo Umbrel: il database
+  PostgreSQL con i dati, il server che le app di Aurora interrogano e un
+  backup automatico ogni notte (ne restano trenta, nella cartella dell'app,
+  compresi nei backup di umbrelOS).
+
+
+  Dopo l'installazione apri Aurora dalla schermata di Umbrel: la pagina di
+  stato ti chiede di creare il primo utente (l'amministratore) e ti mostra
+  l'indirizzo da scrivere nelle app di Aurora, in Impostazioni › Server
+  › «Il mio server». L'accesso è protetto dal login di Aurora, non da quello
+  di Umbrel: le app sul telefono e sul computer si collegano direttamente.
+
+
+  Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
+releaseNotes: ""
+
+developer: Prisma Informatica s.a.s.
+website: https://www.xprisma.it
+dependencies: []
+repo: https://github.com/RobyCek/Aurora
+support: mailto:info@xprisma.it
+
+port: 2960
+gallery: []
+path: ""
+
+defaultUsername: ""
+defaultPassword: ""
+
+submitter: Prisma Informatica
+submission: https://github.com/RobyCek/aurora-umbrel-store

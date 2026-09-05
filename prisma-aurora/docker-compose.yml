@@ -1,0 +1,138 @@
+# L'APP «AURORA» DEL NEGOZIO PRISMA PER UMBREL — 05/09/2026, Tappa 3.
+#
+# È lo stesso disegno di `server_casalingo/docker-compose.yml` nel repository
+# Aurora (Tappa 2), scritto come lo vuole Umbrel:
+#
+#   app_proxy   il proxy di Umbrel: la porta 2960 del manifest arriva qui, e
+#               da qui alla porta 8000 del server. `PROXY_AUTH_ADD: "false"`
+#               perché Aurora ha già il suo login (JWT) e le app su iPhone,
+#               Mac e Windows non possono mandare i cookie di Umbrel.
+#   postgres    il database, in ${APP_DATA_DIR}/data/db (bind-mount: entra nei
+#               backup di umbrelOS e sopravvive a riavvii e aggiornamenti).
+#   server      Aurora, dall'immagine pubblicata da Prisma su ghcr.io.
+#   backup      ogni notte alle 02:00 un pg_dump in ${APP_DATA_DIR}/data/backup,
+#               ne tiene 30, e uno subito al primo avvio.
+#
+# I segreti (password del database, chiave segreta) li genera Umbrel da sé:
+# vedi `exports.sh`. I nomi `prisma-aurora_<servizio>_1` sono quelli che
+# Umbrel dà ai contenitori: su Umbrel tutte le app stanno sulla stessa rete,
+# e «postgres» da solo potrebbe essere quello di un'altra app.
+#
+# Le immagini sono fissate con tag E digest, come Umbrel richiede: il digest
+# di Aurora lo scrive l'azione GitHub nel suo riepilogo (oppure
+# `aggiorna_immagini.sh`, da un computer con Docker). Solo linux/amd64 per
+# l'immagine di Aurora (l'Umbrel Home è Intel); arm64 alla Tappa 7 — il
+# linter di Umbrel lo segnala, ed è voluto.
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: prisma-aurora_server_1
+      APP_PORT: 8000
+      PROXY_AUTH_ADD: "false"
+
+  postgres:
+    # Postgres 18: è la versione di Aurora cloud (Railway, 18.6 al 05/09/2026),
+    # e pg_dump deve essere almeno pari al server che legge. La stessa
+    # immagine serve al servizio `backup` per lo stesso motivo.
+    image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    restart: on-failure
+    stop_grace_period: 1m
+    environment:
+      POSTGRES_DB: aurora
+      POSTGRES_USER: aurora
+      POSTGRES_PASSWORD: ${APP_PRISMA_AURORA_POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aurora -d aurora"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  server:
+    image: ghcr.io/robycek/aurora:1.0.1@sha256:f263907fbaa30b79d6a8b679f49e425ff3c268b69b3f35ae84955cb67015a3f4
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
+      SECRET_KEY: ${APP_PRISMA_AURORA_SECRET_KEY}
+      ALGORITHM: HS256
+      PORT: "8000"
+      # La pagina di stato legge da qui la data dell'ultimo backup.
+      AURORA_CARTELLA_BACKUP: /backup
+    volumes:
+      - ${APP_DATA_DIR}/data/backup:/backup:ro
+
+  backup:
+    image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: prisma-aurora_postgres_1
+      PGUSER: aurora
+      PGPASSWORD: ${APP_PRISMA_AURORA_POSTGRES_PASSWORD}
+      PGDATABASE: aurora
+      BACKUP_ORA: "02:00"
+      BACKUP_QUANTI: "30"
+    volumes:
+      - ${APP_DATA_DIR}/data/backup:/backup
+    # Lo script del backup sta QUI dentro e non in un file a parte: Umbrel,
+    # quando aggiorna un'app, ricopia solo docker-compose.yml, exports.sh,
+    # i template e gli hook — un `backup.sh` accanto resterebbe quello della
+    # prima installazione. È lo stesso script di `server_casalingo/backup.sh`;
+    # i `$$` sono `$` per Compose. Si ripristina con:
+    #   pg_restore --clean --if-exists --no-owner -d aurora file.dump
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -u
+        ORA="$${BACKUP_ORA:-02:00}"
+        QUANTI="$${BACKUP_QUANTI:-30}"
+        CARTELLA="/backup"
+
+        fai_backup() {
+          nome="$${CARTELLA}/aurora_$$(date +%Y%m%d_%H%M).dump"
+          tmp="$${nome}.parziale"
+          echo "[backup] $$(date '+%d/%m/%Y %H:%M') inizio → $${nome}"
+          if pg_dump -Fc -f "$${tmp}" && [ -s "$${tmp}" ]; then
+            mv "$${tmp}" "$${nome}"
+            echo "[backup] fatto ($$(du -h "$${nome}" | cut -f1))"
+            ls -1 "$${CARTELLA}"/aurora_*.dump 2>/dev/null | sort | head -n -"$${QUANTI}" | while read -r vecchio; do
+              rm -f "$${vecchio}" && echo "[backup] tolto $${vecchio}"
+            done
+          else
+            rm -f "$${tmp}"
+            echo "[backup] FALLITO: il database non ha risposto. Riprovo alla prossima ora prevista."
+          fi
+        }
+
+        secondi_fino_a() {
+          ora_h="$${1%%:*}"; ora_m="$${1##*:}"
+          adesso=$$(date +%s)
+          oggi=$$(date -d "$$(date +%Y-%m-%d) $${ora_h}:$${ora_m}:00" +%s 2>/dev/null)
+          if [ -z "$${oggi}" ]; then
+            echo 86400; return
+          fi
+          if [ "$${oggi}" -le "$${adesso}" ]; then
+            oggi=$$((oggi + 86400))
+          fi
+          echo $$((oggi - adesso))
+        }
+
+        mkdir -p "$${CARTELLA}"
+        if ! ls "$${CARTELLA}"/aurora_*.dump >/dev/null 2>&1; then
+          fai_backup
+        fi
+        while true; do
+          attesa=$$(secondi_fino_a "$${ORA}")
+          echo "[backup] prossimo backup fra $$((attesa / 3600)) h $$(((attesa % 3600) / 60)) min (alle $${ORA})"
+          sleep "$${attesa}"
+          fai_backup
+        done
