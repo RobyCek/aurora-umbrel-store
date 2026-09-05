@@ -48,3 +48,9 @@ Prima di pubblicare, il linter ufficiale di Umbrel (dal repository
 Con `--check-images` in più il linter interroga anche i registri: segnala che
 l'immagine di Aurora è solo `linux/amd64` — è voluto (l'Umbrel Home è Intel;
 `arm64` alla Tappa 7 del piano).
+
+## L'icona
+
+`prisma-aurora/icona.png` (512 px, logo bianco sul blu di Aurora, sfondo
+pieno: su Umbrel le tessere stanno su fondo scuro e un PNG trasparente si
+perdeva). Il sorgente è `prisma-aurora/icona_sorgente.svg`.
