@@ -26,12 +26,14 @@ description: >-
 
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
-releaseNotes: ""
+releaseNotes: >-
+  Migliora la sincronizzazione dei Task fra Mac, iPhone e iPad e corregge i
+  collegamenti delle Note quando viene rimossa una Persona o un'Azienda.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []
-repo: https://github.com/RobyCek/Aurora
+repo: https://github.com/RobyCek/aurora-umbrel-store
 support: mailto:info@xprisma.it
 
 port: 2960

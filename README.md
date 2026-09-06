@@ -4,22 +4,26 @@ Questo repository è il **negozio comunitario** di Prisma Informatica per
 umbrelOS. Oggi contiene un'app sola: **Aurora**, il server del CRM
 (`prisma-aurora/`).
 
-## Per chi ha un Umbrel
+## Installazione per il cliente — 10 passaggi
 
-1. In umbrelOS apri **App Store**, poi il menu in alto a destra
-   (**⋯ › Community App Stores**), incolla l'indirizzo di questo repository
-   (`https://github.com/RobyCek/aurora-umbrel-store`) e premi **Add**.
-2. Apri il negozio «Prisma Informatica» e premi **Installa** su Aurora.
-3. Apri Aurora dalla schermata di Umbrel: la pagina di stato ti chiede di
-   creare il primo utente (l'amministratore) e ti mostra l'indirizzo da
-   scrivere nelle app di Aurora — in casa è `http://umbrel.local:2960`.
-4. Su Mac, iPhone, iPad o Windows apri Aurora: **Impostazioni › Server ›
-   Il mio server**, incolla l'indirizzo, **Prova il collegamento**, **Usa
-   questo server**. Per un iPhone o un portatile che escono di casa serve l'app
-   **Tailscale** di Umbrel (e Tailscale acceso sul dispositivo): scrivi
-   **una volta sola** l'indirizzo IP che Tailscale dà all'Umbrel, per
-   esempio `100.x.y.z:2960`, e usalo sempre, anche in casa — cambiare
-   indirizzo fa riscaricare tutti i dati.
+1. Apri **App Store** in umbrelOS.
+2. Premi **⋯ › Community App Store**.
+3. Incolla `https://github.com/RobyCek/aurora-umbrel-store` nel campo URL.
+4. Premi **Aggiungi** e apri il negozio «Prisma Informatica».
+5. Apri **Aurora** e premi **Installa**.
+6. Dalla Home di Umbrel apri Aurora e verifica **Il database risponde**.
+7. Se parti senza dati, crea il primo utente amministratore; se arrivi da
+   Aurora cloud, chiedi prima a Prisma il trasferimento del database.
+8. Installa Tailscale su Umbrel e sui dispositivi che useranno Aurora.
+9. In Aurora scegli **Impostazioni › Server › Il mio server**, inserisci
+   l'indirizzo Tailscale dell'Umbrel con porta `2960`, poi **Prova il
+   collegamento › Usa questo server**.
+10. Accedi e prova dal telefono anche con il Wi-Fi spento.
+
+Usa sempre lo stesso indirizzo Tailscale, anche in casa: alternarlo con
+`umbrel.local` fa riscaricare il mirror locale. Non disinstallare Aurora per
+risolvere un problema di collegamento, perché la disinstallazione coinvolge i
+dati dell'app; contatta prima Prisma Informatica.
 
 I dati stanno in `app-data/prisma-aurora/data/db` (il database) e
 `app-data/prisma-aurora/data/backup` (un backup ogni notte alle 02:00, ne
