@@ -20,9 +20,8 @@
 #
 # Le immagini sono fissate con tag E digest, come Umbrel richiede: il digest
 # di Aurora lo scrive l'azione GitHub nel suo riepilogo (oppure
-# `aggiorna_immagini.sh`, da un computer con Docker). Solo linux/amd64 per
-# l'immagine di Aurora (l'Umbrel Home è Intel); arm64 alla Tappa 7 — il
-# linter di Umbrel lo segnala, ed è voluto.
+# `aggiorna_immagini.sh`, da un computer con Docker). Dalla versione 1.0.3
+# l'immagine Aurora contiene sia linux/amd64 sia linux/arm64.
 
 services:
   app_proxy:
@@ -53,7 +52,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.2@sha256:d383c1695a8bee510da132365d66f6552dca9041878152ce19afb6901c4499b3
+    image: ghcr.io/robycek/aurora:1.0.3@sha256:4d7249456da027b90cfd841201943e337fe957978890858f6942a7c2cb5cf143
     restart: on-failure
     depends_on:
       postgres:
