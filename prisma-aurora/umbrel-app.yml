@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.3"
+version: "1.0.4"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -27,9 +27,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge l'immagine nativa per server con processore ARM, compresi Mac
-  Apple Silicon e dispositivi Umbrel compatibili, mantenendo il supporto ai
-  server Intel/AMD.
+  Aggiunge il trasferimento guidato e sicuro dell'archivio da un server
+  Aurora a un altro, con verifica dei dati, passaggio dei dispositivi e sette
+  giorni di protezione sul vecchio server. Migliora inoltre la ripresa del
+  trasferimento dopo brevi interruzioni di rete.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
