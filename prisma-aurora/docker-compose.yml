@@ -52,7 +52,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.8@sha256:49fbb3c2113724b2e889c6c6ae1deb36471aeb7c9a9c7eb0534863a704da4eb5
+    image: ghcr.io/robycek/aurora:1.0.9@sha256:750c45b5da165ed95bbd63700885df44c3ea78a207c04c1e47b60344b109be5c
     restart: on-failure
     depends_on:
       postgres:
