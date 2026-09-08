@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.15"
+version: "1.0.16"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -27,8 +27,8 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Elimina automaticamente da Contatti le vecchie schede già rimosse da
-  Aurora e rende affidabili anche le future esclusioni CardDAV.
+  Ripete in sicurezza le rimozioni CardDAV a ogni sincronizzazione, così le
+  vecchie schede scompaiono da Contatti indipendentemente dal token Apple.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
