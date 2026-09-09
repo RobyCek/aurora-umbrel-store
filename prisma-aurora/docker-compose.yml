@@ -52,11 +52,17 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.21@sha256:b160a369c38dd19ead1e437691e50a7bdb237cfd32941e46501f3f909c417b6b
+    image: ghcr.io/robycek/aurora:1.0.22@sha256:a3cc63f53ad5a1a2e98fd6d82a48a695cf977b843e0d7f0a36319d4ac8cac511
     restart: on-failure
     depends_on:
       postgres:
         condition: service_healthy
+    # Le credenziali OAuth Google appartengono a questa installazione, non
+    # al database. Il file e' facoltativo e vive nei dati persistenti, così
+    # un aggiornamento dell'app non lo sostituisce.
+    env_file:
+      - path: ${APP_DATA_DIR}/data/config/google_oauth.env
+        required: false
     environment:
       DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
       SECRET_KEY: ${APP_PRISMA_AURORA_SECRET_KEY}
