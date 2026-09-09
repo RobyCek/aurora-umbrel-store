@@ -54,7 +54,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.24@sha256:5b234dc19d1634294a9f9419333a7076df2007ed4150830bea763b75d69f67a0
+    image: ghcr.io/robycek/aurora:1.0.25@sha256:18425923f092ff1ad1dfc2b1258c3f60ca2252a9ffb3930dc0f707df6cc4b112
     restart: on-failure
     depends_on:
       postgres:
@@ -78,7 +78,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora:1.0.24@sha256:5b234dc19d1634294a9f9419333a7076df2007ed4150830bea763b75d69f67a0
+    image: ghcr.io/robycek/aurora:1.0.25@sha256:18425923f092ff1ad1dfc2b1258c3f60ca2252a9ffb3930dc0f707df6cc4b112
     restart: on-failure
     depends_on:
       postgres:
