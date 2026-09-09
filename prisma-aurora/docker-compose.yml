@@ -12,6 +12,8 @@
 #   server      Aurora, dall'immagine pubblicata da Prisma su ghcr.io.
 #   backup      ogni notte alle 02:00 un pg_dump in ${APP_DATA_DIR}/data/backup,
 #               ne tiene 30, e uno subito al primo avvio.
+#   ollama      il motore locale; modello e pesi persistono negli aggiornamenti.
+#   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili.
 #
 # I segreti (password del database, chiave segreta) li genera Umbrel da sé:
 # vedi `exports.sh`. I nomi `prisma-aurora_<servizio>_1` sono quelli che
@@ -52,7 +54,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.22@sha256:a3cc63f53ad5a1a2e98fd6d82a48a695cf977b843e0d7f0a36319d4ac8cac511
+    image: ghcr.io/robycek/aurora:1.0.23@sha256:11af1ccc7130e47ead923d4859518bcb13da5d77ed488be91c48d33acabf92b0
     restart: on-failure
     depends_on:
       postgres:
@@ -72,6 +74,28 @@ services:
       AURORA_CARTELLA_BACKUP: /backup
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup:ro
+
+  ollama:
+    image: ollama/ollama:0.32.15@sha256:57d60e686821ea81a7748a3ec8141308c8b8f95b27105713954abf7a6529e700
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/ollama:/root/.ollama
+
+  ai_worker:
+    # Stessa immagine del server: contiene il worker e tutte le dipendenze
+    # Python gia' verificate. Non espone alcuna porta pubblica.
+    image: ghcr.io/robycek/aurora:1.0.23@sha256:11af1ccc7130e47ead923d4859518bcb13da5d77ed488be91c48d33acabf92b0
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
+      OLLAMA_URL: http://prisma-aurora_ollama_1:11434
+      OLLAMA_MODEL: qwen3.5:9b
+    command: ["python", "worker_intelligenza.py"]
 
   backup:
     image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2

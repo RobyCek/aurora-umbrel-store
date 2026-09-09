@@ -25,9 +25,24 @@ Usa sempre lo stesso indirizzo Tailscale, anche in casa: alternarlo con
 risolvere un problema di collegamento, perché la disinstallazione coinvolge i
 dati dell'app; contatta prima Prisma Informatica.
 
-I dati stanno in `app-data/prisma-aurora/data/db` (il database) e
+I dati stanno in `app-data/prisma-aurora/data/db` (il database),
 `app-data/prisma-aurora/data/backup` (un backup ogni notte alle 02:00, ne
-restano trenta): entrambi rientrano nei backup di umbrelOS.
+restano trenta) e `app-data/prisma-aurora/data/ollama` (il modello locale):
+tutti rientrano nei backup di umbrelOS. Al primo avvio il modello viene
+scaricato automaticamente; sono diversi gigabyte e puo' richiedere alcuni
+minuti. Da quel momento iPhone e iPad usano l'Intelligenza di Umbrel senza
+lasciare Aurora aperta sul Mac.
+
+Per la Posta Google, Aurora Server legge facoltativamente
+`app-data/prisma-aurora/data/config/google_oauth.env`. Il file resta nei dati
+persistenti anche quando l'app viene aggiornata e deve essere leggibile solo
+da root (`600`). Contiene, senza virgolette:
+
+    GOOGLE_OAUTH_CLIENT_ID=…apps.googleusercontent.com
+    GOOGLE_OAUTH_CLIENT_SECRET=…
+
+Sono le credenziali OAuth dell'applicazione Aurora, non la password Gmail
+dell'utente. Non vanno inserite nel repository né mostrate nei log.
 
 ## Per chi pubblica una nuova versione (Prisma)
 
