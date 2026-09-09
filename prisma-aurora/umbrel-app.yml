@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.23"
+version: "1.0.24"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -14,7 +14,7 @@ description: >-
 
   Questa app installa il server di Aurora sul tuo Umbrel: il database
   PostgreSQL con i dati, il server che le app di Aurora interrogano, il
-  motore locale Ollama per l'Intelligenza e un backup automatico ogni notte
+  collegamento all'app ufficiale Ollama per l'Intelligenza e un backup automatico ogni notte
   (ne restano trenta, nella cartella dell'app, compresi nei backup di
   umbrelOS).
 
@@ -28,15 +28,14 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge Ollama e il worker permanente dell'Intelligenza sul server Umbrel.
-  iPhone e iPad non compatibili con Apple Intelligence possono ora riassumere,
-  tradurre e preparare bozze senza lasciare Aurora aperta sul Mac. Il modello
-  viene scaricato automaticamente al primo avvio e resta conservato negli
-  aggiornamenti insieme ai dati dell'app.
+  Usa l'app ufficiale Ollama di Umbrel e il modello qwen3.5:4b, più leggero.
+  Riduce nettamente la memoria necessaria per riassunti, traduzioni e bozze
+  richiesti da iPhone e iPad ed evita il blocco osservato con il modello 9B.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
-dependencies: []
+dependencies:
+  - ollama
 repo: https://github.com/RobyCek/aurora-umbrel-store
 support: mailto:info@xprisma.it
 

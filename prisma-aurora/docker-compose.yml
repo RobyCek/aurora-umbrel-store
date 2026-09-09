@@ -12,8 +12,8 @@
 #   server      Aurora, dall'immagine pubblicata da Prisma su ghcr.io.
 #   backup      ogni notte alle 02:00 un pg_dump in ${APP_DATA_DIR}/data/backup,
 #               ne tiene 30, e uno subito al primo avvio.
-#   ollama      il motore locale; modello e pesi persistono negli aggiornamenti.
-#   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili.
+#   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili e
+#               usa l'app Ollama ufficiale di Umbrel.
 #
 # I segreti (password del database, chiave segreta) li genera Umbrel da sé:
 # vedi `exports.sh`. I nomi `prisma-aurora_<servizio>_1` sono quelli che
@@ -75,12 +75,6 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup:ro
 
-  ollama:
-    image: ollama/ollama:0.32.15@sha256:57d60e686821ea81a7748a3ec8141308c8b8f95b27105713954abf7a6529e700
-    restart: on-failure
-    volumes:
-      - ${APP_DATA_DIR}/data/ollama:/root/.ollama
-
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
@@ -89,12 +83,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      ollama:
-        condition: service_started
     environment:
       DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
-      OLLAMA_URL: http://prisma-aurora_ollama_1:11434
-      OLLAMA_MODEL: qwen3.5:9b
+      # Endpoint documentato dall'app Ollama ufficiale di Umbrel. Il 4B
+      # occupa circa la metà del 9B ed evita di saturare i 16 GB del server.
+      OLLAMA_URL: http://ollama_ollama_1:11434
+      OLLAMA_MODEL: qwen3.5:4b
     command: ["python", "worker_intelligenza.py"]
 
   backup:
