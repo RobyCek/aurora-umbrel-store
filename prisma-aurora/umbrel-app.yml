@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.30"
+version: "1.0.31"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge le anteprime reali dei documenti Affinity 3 estraendo la copertina
-  incorporata nei file .af. La copertina viene conservata nella cache
-  condivisa del server ed è disponibile anche su iPad e iPhone senza ripetere
-  il calcolo.
+  Permette di associare a una Persona o Azienda più cartelle Dropbox, comprese
+  cartelle condivise scelte esplicitamente fuori dalla cartella ARCHIVIO. Ogni
+  collegamento resta limitato alla cartella scelta e non espone il resto del
+  Dropbox.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
