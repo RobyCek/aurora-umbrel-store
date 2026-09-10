@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.29"
+version: "1.0.30"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,9 +28,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Corregge le anteprime Excel verificando che Dropbox abbia prodotto un PDF
-  valido e usando automaticamente LibreOffice quando la conversione remota è
-  malformata. Invalida le copie errate già presenti nella cache condivisa.
+  Aggiunge le anteprime reali dei documenti Affinity 3 estraendo la copertina
+  incorporata nei file .af. La copertina viene conservata nella cache
+  condivisa del server ed è disponibile anche su iPad e iPhone senza ripetere
+  il calcolo.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
