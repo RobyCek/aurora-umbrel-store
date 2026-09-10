@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.32"
+version: "1.0.33"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,11 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Permette di ridefinire quale cartella Documenti associata sia la principale,
-  conservando tutte le altre. Le anteprime Quick Look di documenti Office,
-  Apple e creativi possono essere condivise dal Mac attraverso il server e
-  riutilizzate dagli altri dispositivi.
+  Aggiunge l'indicizzazione centralizzata e incrementale delle anteprime
+  dell'Archivio: comprende la cartella Master e le cartelle condivise
+  associate, mostra l'avanzamento e permette di interrompere il lavoro. La
+  cache conserva soltanto anteprime derivate, elimina le vecchie revisioni e
+  viene condivisa fra Mac, iPhone e iPad.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
