@@ -28,9 +28,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge a ogni Persona e Azienda la scelta per consentire o impedire il
-  collegamento automatico della posta in arrivo. I nominativi esistenti
-  restano attivi e i collegamenti scelti manualmente non cambiano.
+  Aggiunge le anteprime per Excel e per i formati Photoshop, Illustrator,
+  InDesign e Affinity. Le fotografie nella griglia vengono mostrate intere,
+  senza ritagliare i bordi.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
