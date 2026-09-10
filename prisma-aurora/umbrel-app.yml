@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.35"
+version: "1.0.36"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Accelera l'indicizzazione condivisa delle anteprime: Dropbox riceve le
-  richieste in gruppi da 25 e la cache viene controllata con una sola lettura.
-  I formati per cui Dropbox non può creare un'anteprima vengono saltati senza
-  essere mostrati come errori tecnici.
+  Distingue i formati non gestiti dalle anteprime non disponibili e conserva
+  un inventario tecnico delle estensioni sconosciute, consultabile soltanto
+  dagli amministratori per guidare le integrazioni future. L'elenco non viene
+  mostrato nell'interfaccia di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
