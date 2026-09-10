@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.31"
+version: "1.0.32"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Permette di associare a una Persona o Azienda più cartelle Dropbox, comprese
-  cartelle condivise scelte esplicitamente fuori dalla cartella ARCHIVIO. Ogni
-  collegamento resta limitato alla cartella scelta e non espone il resto del
-  Dropbox.
+  Permette di ridefinire quale cartella Documenti associata sia la principale,
+  conservando tutte le altre. Le anteprime Quick Look di documenti Office,
+  Apple e creativi possono essere condivise dal Mac attraverso il server e
+  riutilizzate dagli altri dispositivi.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
