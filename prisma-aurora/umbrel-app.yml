@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.37"
+version: "1.0.38"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,9 +28,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Recupera automaticamente un'indicizzazione delle anteprime interrotta da
-  un aggiornamento o riavvio del server. Le anteprime già generate restano
-  valide e il lavoro può essere rilanciato senza duplicarle.
+  Aggiunge la condivisione dei Modelli tramite le preselezioni di Permessi. Le
+  copie autorizzate sono disponibili agli utenti e ai team con diritto di
+  visualizzazione o modifica e continuano a funzionare offline.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
