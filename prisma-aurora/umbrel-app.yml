@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.45"
+version: "1.0.46"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge i collegamenti firmati con i siti web: le iscrizioni ricevute da
-  WordPress, WooCommerce e dai moduli compatibili possono creare o aggiornare
-  automaticamente le schede Persona in Aurora, senza doppioni e senza
-  cancellare dati esistenti quando il sito invia campi vuoti.
+  Estende i collegamenti dei siti web con la mappatura di telefono, azienda,
+  messaggio, consenso privacy e modulo di provenienza. I nuovi dati aggiornano
+  recapiti, relazioni e Note delle Persone senza duplicare record o cancellare
+  valori esistenti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
