@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.40"
+version: "1.0.41"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,9 +28,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge all'Intelligenza la creazione di Persona e Azienda da una email
-  ricevuta. Aurora può estrarre recapiti, dati fiscali, indirizzi, sito e logo,
-  applicare i valori predefiniti e collegare il messaggio ai nuovi nominativi.
+  Aggiunge l'unione multipla di Note ed Email CRM. Aurora conserva la scheda
+  scelta, accoda i contenuti delle altre, trasferisce collegamenti, parole
+  chiave e allegati senza doppioni e sposta nel Cestino le schede assorbite.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
