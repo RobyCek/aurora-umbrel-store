@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.41"
+version: "1.0.42"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,9 +28,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge l'unione multipla di Note ed Email CRM. Aurora conserva la scheda
-  scelta, accoda i contenuti delle altre, trasferisce collegamenti, parole
-  chiave e allegati senza doppioni e sposta nel Cestino le schede assorbite.
+  Mostra nella pagina di stato l'indirizzo HTTPS MagicDNS di Tailscale
+  consigliato per collegare Aurora dentro e fuori casa, mantenendo disponibile
+  anche l'indirizzo locale usato per aprire la pagina.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
