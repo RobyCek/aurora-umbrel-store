@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.47"
+version: "1.0.48"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,8 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Porta in Aurora la gestione guidata dei siti web: creazione dei collegamenti,
-  indirizzi webhook completi, segreti revocabili, download del plugin WordPress
-  e registro degli invii. Dopo la configurazione iniziale dell'ingresso HTTPS,
-  ogni nuovo sito si collega dall'app senza Terminale o chiamate API.
+  Aggiunge due loghi distinti per modalità chiara e scura e compila
+  automaticamente i dati dell’identità dalla scheda Azienda.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
