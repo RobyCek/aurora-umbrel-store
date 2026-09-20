@@ -40,9 +40,11 @@ da root (`600`). Contiene, senza virgolette:
 
     GOOGLE_OAUTH_CLIENT_ID=…apps.googleusercontent.com
     GOOGLE_OAUTH_CLIENT_SECRET=…
+    BOX_CLIENT_ID=…
+    BOX_CLIENT_SECRET=…
 
-Sono le credenziali OAuth dell'applicazione Aurora, non la password Gmail
-dell'utente. Non vanno inserite nel repository né mostrate nei log.
+Sono le credenziali OAuth delle applicazioni Aurora, non le password degli
+utenti. Non vanno inserite nel repository né mostrate nei log.
 
 ## Per chi pubblica una nuova versione (Prisma)
 

@@ -54,12 +54,12 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.52@sha256:4277cefb5732a1b9543a5cce12133052c19d60147313c5b9938dc2f133df51a3
+    image: ghcr.io/robycek/aurora:1.0.53@sha256:aa9e6e244ccc72e174b7de416d8b20d158a762ce1882dc5932202ba024e203f6
     restart: on-failure
     depends_on:
       postgres:
         condition: service_healthy
-    # Le credenziali OAuth Google, OneDrive e pCloud appartengono a questa installazione,
+    # Le credenziali OAuth Google, OneDrive, pCloud e Box appartengono a questa installazione,
     # non al database. Il file e' facoltativo e vive nei dati persistenti,
     # così un aggiornamento dell'app non lo sostituisce.
     env_file:
@@ -78,7 +78,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora:1.0.52@sha256:4277cefb5732a1b9543a5cce12133052c19d60147313c5b9938dc2f133df51a3
+    image: ghcr.io/robycek/aurora:1.0.53@sha256:aa9e6e244ccc72e174b7de416d8b20d158a762ce1882dc5932202ba024e203f6
     restart: on-failure
     depends_on:
       postgres:
