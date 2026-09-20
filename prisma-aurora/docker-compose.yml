@@ -36,7 +36,7 @@ services:
     # Postgres 18: è la versione di Aurora cloud (Railway, 18.6 al 05/09/2026),
     # e pg_dump deve essere almeno pari al server che legge. La stessa
     # immagine serve al servizio `backup` per lo stesso motivo.
-    image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    image: postgres:18.6-alpine@sha256:6c538e7206ea40ff740ef27883529390a690b6ead6ba96b44c67a9f7c638e8fd
     restart: on-failure
     stop_grace_period: 1m
     environment:
@@ -54,7 +54,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.53@sha256:aa9e6e244ccc72e174b7de416d8b20d158a762ce1882dc5932202ba024e203f6
+    image: ghcr.io/robycek/aurora:1.0.54@sha256:3e86da37d8c0f66e5f03b665e989b3637fec519714df02255450b52e978b3ce8
     restart: on-failure
     depends_on:
       postgres:
@@ -78,7 +78,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora:1.0.53@sha256:aa9e6e244ccc72e174b7de416d8b20d158a762ce1882dc5932202ba024e203f6
+    image: ghcr.io/robycek/aurora:1.0.54@sha256:3e86da37d8c0f66e5f03b665e989b3637fec519714df02255450b52e978b3ce8
     restart: on-failure
     depends_on:
       postgres:
@@ -92,7 +92,7 @@ services:
     command: ["python", "worker_intelligenza.py"]
 
   backup:
-    image: postgres:18.6-alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
+    image: postgres:18.6-alpine@sha256:6c538e7206ea40ff740ef27883529390a690b6ead6ba96b44c67a9f7c638e8fd
     restart: on-failure
     depends_on:
       postgres:

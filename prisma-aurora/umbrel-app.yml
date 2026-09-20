@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.53"
+version: "1.0.54"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -28,10 +28,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge Box all'Archivio documenti, con collegamento guidato, scelta della
-  cartella, attivazione separata e copia assistita da Dropbox senza cancellare
-  gli originali. Include il rinnovo sicuro delle autorizzazioni Box e mantiene
-  disponibili Google Drive, OneDrive, pCloud e Dropbox.
+  Corregge il riallineamento delle cartelle Persona: ignora i collegamenti
+  scaduti e, dopo una conferma esplicita, crea la sottocartella dentro
+  l'Azienda scelta senza riproporre la richiesta all'infinito.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
