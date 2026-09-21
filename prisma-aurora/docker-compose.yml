@@ -56,6 +56,15 @@ services:
   server:
     image: ghcr.io/robycek/aurora:1.0.54@sha256:3e86da37d8c0f66e5f03b665e989b3637fec519714df02255450b52e978b3ce8
     restart: on-failure
+    init: true
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 512
+    tmpfs:
+      - /tmp:size=1g,mode=1777
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,18 +77,41 @@ services:
     environment:
       DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
       SECRET_KEY: ${APP_PRISMA_AURORA_SECRET_KEY}
+      JWT_SIGNING_KEY: ${APP_PRISMA_AURORA_JWT_SIGNING_KEY}
+      # APP_PASSWORD è il codice deterministico che umbrelOS mostra nella
+      # scheda dell'app; serve soltanto per creare il primo amministratore.
+      AURORA_SETUP_TOKEN: ${APP_PASSWORD}
+      ACCESS_TOKEN_EXPIRE_MINUTES: "15"
+      REFRESH_TOKEN_EXPIRE_DAYS: "30"
+      AURORA_DOCUMENTAZIONE_API: "0"
+      AURORA_CORS_ORIGINI: ""
       ALGORITHM: HS256
       PORT: "8000"
       # La pagina di stato legge da qui la data dell'ultimo backup.
       AURORA_CARTELLA_BACKUP: /backup
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/salute', timeout=3).read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
     image: ghcr.io/robycek/aurora:1.0.54@sha256:3e86da37d8c0f66e5f03b665e989b3637fec519714df02255450b52e978b3ce8
     restart: on-failure
+    init: true
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    tmpfs:
+      - /tmp:size=256m,mode=1777
     depends_on:
       postgres:
         condition: service_healthy

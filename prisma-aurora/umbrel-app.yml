@@ -20,7 +20,9 @@ description: >-
 
 
   Dopo l'installazione apri Aurora dalla schermata di Umbrel: la pagina di
-  stato ti chiede di creare il primo utente (l'amministratore) e ti mostra
+  stato ti chiede di creare il primo utente (l'amministratore). Usa come
+  «codice primo accesso» la password che umbrelOS mostra nella scheda di
+  Aurora. La pagina ti mostra poi
   l'indirizzo da scrivere nelle app di Aurora, in Impostazioni › Server
   › «Il mio server». L'accesso è protetto dal login di Aurora, non da quello
   di Umbrel: le app sul telefono e sul computer si collegano direttamente.
@@ -44,7 +46,7 @@ gallery: []
 path: ""
 
 defaultUsername: ""
-defaultPassword: ""
+deterministicPassword: true
 
 submitter: Prisma Informatica
 submission: https://github.com/RobyCek/aurora-umbrel-store

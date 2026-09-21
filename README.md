@@ -12,7 +12,9 @@ umbrelOS. Oggi contiene un'app sola: **Aurora**, il server del CRM
 4. Premi **Aggiungi** e apri il negozio «Prisma Informatica».
 5. Apri **Aurora** e premi **Installa**.
 6. Dalla Home di Umbrel apri Aurora e verifica **Il database risponde**.
-7. Se parti senza dati, crea il primo utente amministratore; se arrivi da
+7. Se parti senza dati, crea il primo utente amministratore usando come
+   **codice primo accesso** la password mostrata da umbrelOS nella scheda di
+   Aurora; se arrivi da
    Aurora cloud, chiedi prima a Prisma il trasferimento del database.
 8. Installa Tailscale su Umbrel e sui dispositivi che useranno Aurora.
 9. In Aurora scegli **Impostazioni › Server › Il mio server**, inserisci
