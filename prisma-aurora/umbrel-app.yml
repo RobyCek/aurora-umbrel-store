@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.60"
+version: "1.0.61"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,11 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Completa il modulo Messaggi con conversazioni Telegram e WhatsApp, timeline,
-  gruppi, allegati con anteprima e comandi contestuali coerenti con Aurora.
-  Aggiunge l'invio e il download protetto dei media WhatsApp e mantiene la
-  sincronizzazione locale-prima anche durante le interruzioni di rete.
+  Aggiunge l'Account Telegram completo: accesso alle conversazioni cloud,
+  importazione progressiva della cronologia e avvio diretto della chat tramite
+  username, senza inviti. Migliora la risoluzione dei destinatari negli invii,
+  nelle modifiche e nella cancellazione dei messaggi; il client continua a
+  lavorare sui dati locali durante le interruzioni di rete.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
