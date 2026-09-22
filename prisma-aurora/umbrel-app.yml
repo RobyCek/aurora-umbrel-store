@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.57"
+version: "1.0.58"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Introduce le Messaggerie di Aurora con supporto a Telegram Business e
-  WhatsApp Business, timeline locale per Persona, invii affidabili, allegati
-  protetti e associazione guidata dei contatti. Include inoltre ulteriori
-  correzioni alla sicurezza delle sessioni e alla sincronizzazione.
+  Impedisce a un aggiornamento Telegram Business non valido di bloccare la
+  ricezione dei messaggi successivi. L'evento viene ignorato in modo sicuro,
+  senza conservarne il contenuto, e Aurora può completare automaticamente il
+  collegamento dell'account.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
