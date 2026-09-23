@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.63"
+version: "1.0.64"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Ripristina la sincronizzazione Telegram con allegati oltre 2 GB, completa
-  anteprime e link nei messaggi e distingue gli errori Aurora dai problemi di
-  rete. Separa le impostazioni Telegram e WhatsApp e prepara il collegamento
-  WhatsApp guidato.
+  Corregge l'avvio del collegamento guidato WhatsApp. Mantiene inoltre le
+  anteprime e i link nei messaggi, la sincronizzazione Telegram con allegati
+  oltre 2 GB e le impostazioni separate per Telegram e WhatsApp.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
