@@ -46,6 +46,10 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+    networks:
+      default:
+        aliases:
+          - prisma-aurora_postgres_1
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aurora -d aurora"]
       interval: 10s
@@ -91,6 +95,10 @@ services:
       AURORA_CARTELLA_BACKUP: /backup
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup:ro
+    networks:
+      default:
+        aliases:
+          - prisma-aurora_server_1
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/salute', timeout=3).read()"]
       interval: 30s
