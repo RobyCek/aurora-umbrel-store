@@ -9,7 +9,7 @@
 #               Mac e Windows non possono mandare i cookie di Umbrel.
 #   postgres    il database, in ${APP_DATA_DIR}/data/db (bind-mount: entra nei
 #               backup di umbrelOS e sopravvive a riavvii e aggiornamenti).
-#   server      Aurora, dall'immagine pubblicata da Prisma su ghcr.io.
+#   server      Aurora, dall'immagine privata autorizzata di Prisma su ghcr.io.
 #   backup      ogni notte alle 02:00 un pg_dump in ${APP_DATA_DIR}/data/backup,
 #               ne tiene 30, e uno subito al primo avvio.
 #   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili e
@@ -54,7 +54,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora:1.0.64@sha256:c39b223b33921fbf969bd57771495116b43611eb7a23a4c352282823697ec869
+    image: ghcr.io/robycek/aurora-server-private:1.0.65@sha256:1b8c19755969f7b91d11dc5ae67f8520d4c240cc24eda3f2140682e4072d2146
     restart: on-failure
     init: true
     read_only: true
@@ -101,7 +101,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora:1.0.64@sha256:c39b223b33921fbf969bd57771495116b43611eb7a23a4c352282823697ec869
+    image: ghcr.io/robycek/aurora-server-private:1.0.65@sha256:1b8c19755969f7b91d11dc5ae67f8520d4c240cc24eda3f2140682e4072d2146
     restart: on-failure
     init: true
     read_only: true
