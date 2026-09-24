@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.67"
+version: "1.0.68"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,11 +30,11 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Sincronizza in Contatti Apple anche le date di nascita delle Persone,
-  conservando correttamente i compleanni privi dell'anno e aggiornando i
-  profili CardDAV esistenti senza doverli ricreare. Il server continua a
-  essere distribuito esclusivamente tramite il canale privato autenticato di
-  Aurora.
+  Ritenta automaticamente le contese temporanee di scrittura segnalate da
+  Dropbox, rispettando l'attesa indicata dal servizio. Se la contesa persiste,
+  Aurora mostra un messaggio operativo in italiano invece della risposta JSON
+  grezza. Il server continua a essere distribuito esclusivamente tramite il
+  canale privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
