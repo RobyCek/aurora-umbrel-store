@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.71"
+version: "1.0.72"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Include gruppi e canali nell'importazione Telegram completa e consente di
-  scaricare allegati Telegram fino a 250 MB, mantenendo a 20 MB i limiti dei
-  canali Bot e WhatsApp. Il server continua a essere distribuito esclusivamente
-  tramite il canale privato autenticato di Aurora.
+  Sincronizza la lettura delle conversazioni e aggiunge preferenze separate per
+  abilitare o disabilitare gruppi e canali in Telegram e WhatsApp. Il server
+  continua a essere distribuito esclusivamente tramite il canale privato
+  autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
