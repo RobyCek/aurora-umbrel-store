@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.74"
+version: "1.0.75"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge le ricorrenze personalizzate complete degli Appuntamenti, comprese
-  frequenze settimanali, mensili e annuali, e consolida Calendario, Moduli e
-  collegamenti CRM della Posta. Il server continua a essere distribuito
-  esclusivamente tramite il canale privato autenticato di Aurora.
+  Completa promemoria, ricorrenze e sincronizzazione degli Appuntamenti e
+  consolida Calendario, preferiti, Archivio Documenti e collegamenti CRM. Il
+  server continua a essere distribuito esclusivamente tramite il canale
+  privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
