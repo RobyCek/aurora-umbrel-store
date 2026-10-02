@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.82"
+version: "1.0.83"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,11 +30,11 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Integra nel modulo Messaggi le conversazioni selezionate di Apple Messaggi,
-  comprese le associazioni ai contatti e gli allegati cifrati, mantenendo
-  importazione incrementale e funzionamento locale-prima. Il server continua
-  a essere distribuito esclusivamente tramite il canale privato autenticato
-  di Aurora.
+  Aggiunge l'importazione locale-prima degli SMS e MMS selezionati da Google
+  Messaggi, insieme a collegamenti, categoria, parole chiave, proprietario e
+  permessi delle conversazioni. Migliora inoltre la protezione predefinita
+  delle chat personali. Il server continua a essere distribuito esclusivamente
+  tramite il canale privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
