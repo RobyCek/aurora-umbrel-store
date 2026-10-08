@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.84"
+version: "1.0.86"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Stabilizza le sessioni indipendenti di Mac, iPhone e iPad: il riuso di un
-  token scaduto su un dispositivo non disconnette più gli altri. Le cronologie
-  SMS e MMS già lette sul telefono non vengono inoltre conteggiate come nuovi
-  messaggi. Il server continua a essere distribuito esclusivamente tramite il
+  Aggiunge il modulo Fatture con cataloghi, anagrafiche, documenti, scadenze e
+  importazione SimplyFatt. La sincronizzazione riconosce in modo sicuro i
+  server precedenti senza bloccare la coda e l'importazione XML rifiuta entità
+  esterne. Il server continua a essere distribuito esclusivamente tramite il
   canale privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
