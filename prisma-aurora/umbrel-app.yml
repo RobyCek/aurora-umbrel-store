@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.87"
+version: "1.0.88"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,11 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiunge il modulo Fatture con cataloghi, anagrafiche, documenti, scadenze e
-  importazione SimplyFatt. La sincronizzazione riconosce in modo sicuro i
-  server precedenti senza bloccare la coda e l'importazione XML rifiuta entità
-  esterne. Il server continua a essere distribuito esclusivamente tramite il
-  canale privato autenticato di Aurora.
+  Sincronizza fra Mac e Windows gli articoli e gli altri cataloghi importati
+  da SimplyFatt tramite una fotografia aziendale compressa e atomica. Include
+  inoltre le correzioni Fatture e mantiene il server distribuito
+  esclusivamente tramite il canale privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
