@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.95"
+version: "1.0.96"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Estende le anagrafiche con la Regione delle Persone e consolida le
-  importazioni locali-prima, la coda di sincronizzazione e le integrazioni
-  Allplan e Salesforce. Mantiene il server distribuito esclusivamente tramite
-  il canale privato autenticato di Aurora.
+  Rende una tantum la bonifica della Regione delle Persone importate da
+  36geometri e limita il calcolo ai soli nominativi ancora da completare,
+  evitando che ogni riavvio blocchi il server sugli archivi molto grandi.
+  Mantiene il canale privato autenticato di Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
