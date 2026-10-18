@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.97"
+version: "1.0.98"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Completa WhatsApp Business Coexistence importando in Aurora contatti e
-  cronologia condivisi da Meta, compresi i messaggi inviati dall'app
-  WhatsApp Business. Aumenta inoltre il limite sicuro dei webhook per i
-  blocchi di cronologia e mantiene il canale privato autenticato di Aurora.
+  Sblocca la richiesta iniziale di contatti e cronologia WhatsApp Business
+  in coesistenza, evitando che una sottoscrizione già esistente impedisca
+  l'importazione. Mantiene la ricezione degli eventi Meta necessari alle
+  chat individuali condivise con Aurora.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
