@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.98"
+version: "1.0.99"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Sblocca la richiesta iniziale di contatti e cronologia WhatsApp Business
-  in coesistenza, evitando che una sottoscrizione già esistente impedisca
-  l'importazione. Mantiene la ricezione degli eventi Meta necessari alle
-  chat individuali condivise con Aurora.
+  Migliora l'albero dei Gruppi: conserva l'ordine manuale, impedisce cicli
+  anche nei rami profondi e applica cestino o eliminazione definitiva a tutto
+  il sottoalbero selezionato, mantenendo coerenti le relazioni collegate.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
