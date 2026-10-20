@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.99"
+version: "1.0.100"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,9 +30,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Migliora l'albero dei Gruppi: conserva l'ordine manuale, impedisce cicli
-  anche nei rami profondi e applica cestino o eliminazione definitiva a tutto
-  il sottoalbero selezionato, mantenendo coerenti le relazioni collegate.
+  Migliora la fusione dei nominativi duplicati: conserva nella Nota «Dati
+  duplicati» i valori in conflitto e rende più affidabili sincronizzazione e
+  collegamenti delle relazioni.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
