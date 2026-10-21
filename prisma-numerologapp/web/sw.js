@@ -1,4 +1,4 @@
-const CACHE_NAME = 'numerologapp-v1';
+const CACHE_NAME = 'numerologapp-v3';
 const APP_FILES = [
   './',
   './index.html',

@@ -14,6 +14,11 @@ const MONTHS = [
   'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre',
 ];
 const WEEKDAYS = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+const MONTHS_SHORT = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
+const WEEK_PLANETS = Object.freeze({
+  1: 'Sole', 2: 'Luna', 3: 'Giove', 4: 'Urano/Rahu', 5: 'Mercurio',
+  6: 'Venere', 7: 'Nettuno/Ketu', 8: 'Saturno', 9: 'Marte',
+});
 
 const state = {
   markdown: '',
@@ -46,6 +51,16 @@ function addDays(date, amount) {
   const result = new Date(date);
   result.setDate(result.getDate() + amount);
   return result;
+}
+
+function isoWeekFor(date) {
+  const target = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const weekday = target.getUTCDay() || 7;
+  target.setUTCDate(target.getUTCDate() + 4 - weekday);
+  const year = target.getUTCFullYear();
+  const yearStart = new Date(Date.UTC(year, 0, 1));
+  const week = Math.ceil((((target - yearStart) / 86400000) + 1) / 7);
+  return { year, week };
 }
 
 function clear(element) {
@@ -153,6 +168,27 @@ function renderFamousPeople(people) {
   }
 }
 
+function selectProfileTab(tabName, focus = false) {
+  const tabs = [...document.querySelectorAll('[data-profile-tab]')];
+  const panels = [...document.querySelectorAll('[data-profile-panel]')];
+  const selectedTab = tabs.find((tab) => tab.dataset.profileTab === tabName) ?? tabs[0];
+  if (!selectedTab) return;
+
+  for (const tab of tabs) {
+    const selected = tab === selectedTab;
+    tab.classList.toggle('is-active', selected);
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+  }
+  for (const panel of panels) {
+    const selected = panel.dataset.profilePanel === selectedTab.dataset.profileTab;
+    panel.hidden = !selected;
+    panel.classList.toggle('is-active', selected);
+  }
+  selectedTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  if (focus) selectedTab.focus({ preventScroll: true });
+}
+
 function profileDayStatus(day) {
   const reduced = reduceNumber(day);
   if (state.profile.goodDays.includes(day) || state.profile.goodDays.includes(reduced)) return 'good';
@@ -189,34 +225,75 @@ function renderWeek() {
   clear(table);
   const days = Array.from({ length: 7 }, (_, index) => addDays(state.weekStart, index));
   const last = days[6];
-  byId('week-label').textContent = `${days[0].getDate()} ${MONTHS[days[0].getMonth()]} – ${last.getDate()} ${MONTHS[last.getMonth()]} ${last.getFullYear()}`;
+  const { year, week } = isoWeekFor(state.weekStart);
+  byId('week-label').textContent = `Sett. ${week} — ${days[0].getDate()} ${MONTHS_SHORT[days[0].getMonth()]} / ${last.getDate()} ${MONTHS_SHORT[last.getMonth()]} ${year}`;
 
   const head = document.createElement('thead');
   const headRow = document.createElement('tr');
   headRow.append(makeElement('th', '', 'Giorno'));
   for (let number = 1; number <= 9; number += 1) {
-    const heading = makeElement('th', '', String(number));
-    heading.title = NUMBER_PLANET[number];
+    const heading = document.createElement('th');
+    heading.append(
+      makeElement('span', 'week-number', String(number)),
+      makeElement('span', 'week-planet', WEEK_PLANETS[number]),
+    );
+    heading.title = `${number} · ${WEEK_PLANETS[number]}`;
     headRow.append(heading);
   }
   head.append(headRow);
   table.append(head);
 
   const body = document.createElement('tbody');
+  const todayKey = localDateKey(new Date());
   days.forEach((date, index) => {
     const row = document.createElement('tr');
-    row.append(makeElement('td', '', `${WEEKDAYS[index]} ${date.getDate()}/${date.getMonth() + 1}`));
+    if (localDateKey(date) === todayKey) row.className = 'week-today-row';
+    row.append(makeElement('td', '', `${WEEKDAYS[index]} ${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`));
     for (let number = 1; number <= 9; number += 1) {
       const status = dayStatus(date.getDate(), number, state.dayMap);
       const cell = document.createElement('td');
       const dot = makeElement('span', `week-dot ${status}`);
-      dot.title = status === 'good' ? 'Favorevole' : status === 'bad' ? 'Da evitare' : 'Neutro';
+      const statusLabel = status === 'good' ? 'Favorevole' : status === 'bad' ? 'Da evitare' : 'Neutro';
+      dot.title = `${WEEK_PLANETS[number]}: ${statusLabel}`;
+      dot.setAttribute('role', 'img');
+      dot.setAttribute('aria-label', `${WEEK_PLANETS[number]}: ${statusLabel}`);
       cell.append(dot);
       row.append(cell);
     }
     body.append(row);
   });
   table.append(body);
+}
+
+function weekAsText() {
+  const days = Array.from({ length: 7 }, (_, index) => addDays(state.weekStart, index));
+  const { year, week } = isoWeekFor(state.weekStart);
+  const lines = [
+    `Numerologia della Settimana ${week} (${year})`,
+    `${days[0].getDate()} ${MONTHS_SHORT[days[0].getMonth()]} – ${days[6].getDate()} ${MONTHS_SHORT[days[6].getMonth()]} ${year}`,
+    '',
+    ['Giorno', ...Object.entries(WEEK_PLANETS).map(([number, planet]) => `${number} ${planet}`)].join('\t'),
+  ];
+
+  days.forEach((date, index) => {
+    const values = [];
+    for (let number = 1; number <= 9; number += 1) {
+      const status = dayStatus(date.getDate(), number, state.dayMap);
+      values.push(status === 'good' ? 'Favorevole' : status === 'bad' ? 'Da evitare' : 'Neutro');
+    }
+    lines.push([`${WEEKDAYS[index]} ${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`, ...values].join('\t'));
+  });
+  return { text: lines.join('\n'), year, week };
+}
+
+function saveWeek() {
+  const { text, year, week } = weekAsText();
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `Settimana-${year}-W${String(week).padStart(2, '0')}.txt`;
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 function renderProfile(profile, scroll = true) {
@@ -236,6 +313,7 @@ function renderProfile(profile, scroll = true) {
   state.weekStart = mondayFor(new Date());
   renderCalendar();
   renderWeek();
+  selectProfileTab('summary');
   byId('results').hidden = false;
   if (scroll) byId('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -358,6 +436,29 @@ form.addEventListener('submit', (event) => {
 
 byId('share-button').addEventListener('click', shareResult);
 byId('save-button').addEventListener('click', saveCurrentConsultation);
+for (const tab of document.querySelectorAll('[data-profile-tab]')) {
+  tab.addEventListener('click', () => selectProfileTab(tab.dataset.profileTab));
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const tabs = [...document.querySelectorAll('[data-profile-tab]')];
+    const current = tabs.indexOf(tab);
+    const next = event.key === 'Home'
+      ? 0
+      : event.key === 'End'
+        ? tabs.length - 1
+        : (current + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    selectProfileTab(tabs[next].dataset.profileTab, true);
+  });
+}
+byId('clear-form').addEventListener('click', () => {
+  form.reset();
+  writeInputs({});
+  formError.textContent = '';
+  byId('results').hidden = true;
+  try { localStorage.removeItem(STORAGE_DRAFT); } catch { /* storage unavailable */ }
+  byId('first-name').focus();
+});
 byId('calendar-prev').addEventListener('click', () => {
   state.calendarDate.setMonth(state.calendarDate.getMonth() - 1);
   renderCalendar();
@@ -373,6 +474,7 @@ byId('calendar-today').addEventListener('click', () => {
 byId('week-prev').addEventListener('click', () => { state.weekStart = addDays(state.weekStart, -7); renderWeek(); });
 byId('week-next').addEventListener('click', () => { state.weekStart = addDays(state.weekStart, 7); renderWeek(); });
 byId('week-today').addEventListener('click', () => { state.weekStart = mondayFor(new Date()); renderWeek(); });
+byId('save-week').addEventListener('click', saveWeek);
 byId('clear-history').addEventListener('click', () => {
   if (!window.confirm('Vuoi cancellare tutte le consultazioni salvate su questo dispositivo?')) return;
   storageWrite(STORAGE_HISTORY, []);
@@ -417,6 +519,7 @@ async function initialize() {
     if (!response.ok) throw new Error(`Dati non disponibili (${response.status})`);
     state.markdown = await response.text();
     state.dayMap = buildGlobalDayMap(state.markdown);
+    renderWeek();
     calculateButton.disabled = false;
     calculateButton.textContent = 'Calcola il profilo';
   } catch (error) {
