@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-numerologapp
 category: utilities
 name: NumerologApp
-version: "1.1.0"
+version: "1.1.1"
 tagline: Numerologia vedica con licenze personali e utilizzo offline
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-numerologapp/icona.png
 description: >-
@@ -15,11 +15,9 @@ description: >-
   vengono inviati a servizi esterni. Umbrel gestisce codici personali associati
   a un solo dispositivo e licenze firmate che consentono l'utilizzo offline.
 releaseNotes: >-
-  Aggiunto il sistema di abilitazione personale per le app native. Ogni codice
-  viene associato alla chiave crittografica di un solo dispositivo. Le licenze
-  sono firmate e restano valide offline per 30 giorni. Un nuovo pannello
-  amministrativo permette di creare, revocare e trasferire i codici senza
-  raccogliere i dati personali usati nei calcoli numerologici.
+  Corretto l'avvio su Umbrel quando la cartella persistente delle licenze viene
+  creata con proprietario di sistema. Restano attivi il filesystem in sola
+  lettura, la rimozione delle capability e il blocco dei privilegi aggiuntivi.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []
