@@ -70,6 +70,9 @@
         <button id="calculate-button" class="button button-primary button-full" type="submit" disabled>
           Calcola il profilo
         </button>
+        <button id="clear-form" class="button button-clear button-full" type="button">
+          Pulisci i campi
+        </button>
       </form>
     </section>
 
@@ -86,88 +89,116 @@
         </div>
       </div>
 
-      <div id="number-grid" class="number-grid"></div>
+      <nav class="profile-tabs" role="tablist" aria-label="Sezioni del profilo numerologico">
+        <button id="tab-summary" class="profile-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-summary" data-profile-tab="summary">📊 Riepilogo</button>
+        <button id="tab-character" class="profile-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-character" data-profile-tab="character" tabindex="-1">🌟 Numero del Carattere</button>
+        <button id="tab-karma" class="profile-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-karma" data-profile-tab="karma" tabindex="-1">⚡ Karma</button>
+        <button id="tab-calendar" class="profile-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-calendar" data-profile-tab="calendar" tabindex="-1">📅 Calendario</button>
+        <button id="tab-colors" class="profile-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-colors" data-profile-tab="colors" tabindex="-1">🎨 Colori</button>
+      </nav>
 
-      <div class="insight-grid">
-        <article class="card highlight-card">
-          <span class="card-icon" aria-hidden="true">✦</span>
-          <div>
-            <p class="eyebrow">Firma ideale</p>
-            <p id="ideal-signature" class="large-value"></p>
-          </div>
+      <section id="panel-summary" class="profile-panel is-active" role="tabpanel" aria-labelledby="tab-summary" data-profile-panel="summary">
+        <div id="number-grid" class="number-grid"></div>
+
+        <div class="insight-grid">
+          <article class="card highlight-card">
+            <span class="card-icon" aria-hidden="true">✦</span>
+            <div>
+              <p class="eyebrow">Firma ideale</p>
+              <p id="ideal-signature" class="large-value"></p>
+            </div>
+          </article>
+          <article class="card">
+            <p class="eyebrow">Giorni</p>
+            <h3>Indicazioni personali</h3>
+            <div class="day-groups">
+              <div><span class="dot dot-good"></span><strong>Favorevoli</strong><div id="good-days" class="pill-list"></div></div>
+              <div><span class="dot dot-bad"></span><strong>Da evitare</strong><div id="bad-days" class="pill-list"></div></div>
+            </div>
+          </article>
+        </div>
+
+        <section class="card" aria-labelledby="famous-title">
+          <p class="eyebrow">La stessa combinazione</p>
+          <h3 id="famous-title">Personaggi famosi</h3>
+          <div class="table-scroll"><table><tbody id="famous-people"></tbody></table></div>
+        </section>
+      </section>
+
+      <section id="panel-character" class="profile-panel" role="tabpanel" aria-labelledby="tab-character" data-profile-panel="character" hidden>
+        <article class="card reading-panel-card">
+          <p class="eyebrow">Profilo personale</p>
+          <h3>🌟 Numero del Carattere</h3>
+          <div id="signature-text" class="reading-text"></div>
         </article>
-        <article class="card">
-          <p class="eyebrow">Giorni</p>
-          <h3>Indicazioni personali</h3>
-          <div class="day-groups">
-            <div><span class="dot dot-good"></span><strong>Favorevoli</strong><div id="good-days" class="pill-list"></div></div>
-            <div><span class="dot dot-bad"></span><strong>Da evitare</strong><div id="bad-days" class="pill-list"></div></div>
-          </div>
+      </section>
+
+      <section id="panel-karma" class="profile-panel" role="tabpanel" aria-labelledby="tab-karma" data-profile-panel="karma" hidden>
+        <article class="card reading-panel-card">
+          <p class="eyebrow">Combinazione personale</p>
+          <h3>⚡ Psichico × Karma</h3>
+          <div id="karma-text" class="reading-text"></div>
         </article>
+      </section>
+
+      <section id="panel-calendar" class="profile-panel" role="tabpanel" aria-labelledby="tab-calendar" data-profile-panel="calendar" hidden>
+        <section class="card" aria-labelledby="calendar-title">
+          <div class="calendar-heading">
+            <div>
+              <p class="eyebrow">Calendario personale</p>
+              <h3 id="calendar-title"></h3>
+            </div>
+            <div class="segmented-actions">
+              <button id="calendar-prev" class="icon-button" type="button" aria-label="Mese precedente">‹</button>
+              <button id="calendar-today" class="text-button" type="button">Oggi</button>
+              <button id="calendar-next" class="icon-button" type="button" aria-label="Mese successivo">›</button>
+            </div>
+          </div>
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span>Sab</span><span>Dom</span>
+          </div>
+          <div id="calendar-grid" class="calendar-grid"></div>
+          <div class="legend"><span><i class="dot dot-good"></i>Favorevole</span><span><i class="dot dot-bad"></i>Da evitare</span><span><i class="dot dot-neutral"></i>Neutro</span></div>
+        </section>
+      </section>
+
+      <section id="panel-colors" class="profile-panel" role="tabpanel" aria-labelledby="tab-colors" data-profile-panel="colors" hidden>
+        <section class="card" aria-labelledby="colors-title">
+          <div class="section-heading compact">
+            <div>
+              <p class="eyebrow">Palette personale</p>
+              <h3 id="colors-title">Colori</h3>
+            </div>
+          </div>
+          <div class="color-columns">
+            <div><h4>Favorevoli</h4><div id="good-colors" class="color-list"></div></div>
+            <div><h4>Non positivi</h4><div id="bad-colors" class="color-list"></div></div>
+          </div>
+        </section>
+      </section>
+    </section>
+
+    <section class="card week-card" aria-labelledby="week-title">
+      <div class="calendar-heading">
+        <div>
+          <p class="eyebrow">Tutti i numeri</p>
+          <h2 id="week-title">Numerologia della settimana</h2>
+          <p id="week-label" class="week-label"></p>
+        </div>
+        <div class="segmented-actions">
+          <button id="week-prev" class="icon-button" type="button" aria-label="Settimana precedente">‹</button>
+          <button id="week-today" class="text-button" type="button">Oggi</button>
+          <button id="week-next" class="icon-button" type="button" aria-label="Settimana successiva">›</button>
+        </div>
       </div>
-
-      <section class="card" aria-labelledby="colors-title">
-        <div class="section-heading compact">
-          <div>
-            <p class="eyebrow">Palette personale</p>
-            <h3 id="colors-title">Colori</h3>
-          </div>
-        </div>
-        <div class="color-columns">
-          <div><h4>Favorevoli</h4><div id="good-colors" class="color-list"></div></div>
-          <div><h4>Non positivi</h4><div id="bad-colors" class="color-list"></div></div>
-        </div>
-      </section>
-
-      <section class="card" aria-labelledby="calendar-title">
-        <div class="calendar-heading">
-          <div>
-            <p class="eyebrow">Calendario personale</p>
-            <h3 id="calendar-title"></h3>
-          </div>
-          <div class="segmented-actions">
-            <button id="calendar-prev" class="icon-button" type="button" aria-label="Mese precedente">‹</button>
-            <button id="calendar-today" class="text-button" type="button">Oggi</button>
-            <button id="calendar-next" class="icon-button" type="button" aria-label="Mese successivo">›</button>
-          </div>
-        </div>
-        <div class="calendar-weekdays" aria-hidden="true">
-          <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span>Sab</span><span>Dom</span>
-        </div>
-        <div id="calendar-grid" class="calendar-grid"></div>
-        <div class="legend"><span><i class="dot dot-good"></i>Favorevole</span><span><i class="dot dot-bad"></i>Da evitare</span><span><i class="dot dot-neutral"></i>Neutro</span></div>
-      </section>
-
-      <section class="card" aria-labelledby="week-title">
-        <div class="calendar-heading">
-          <div>
-            <p class="eyebrow">Tutti i numeri</p>
-            <h3 id="week-title">Numerologia della settimana</h3>
-            <p id="week-label" class="muted"></p>
-          </div>
-          <div class="segmented-actions">
-            <button id="week-prev" class="icon-button" type="button" aria-label="Settimana precedente">‹</button>
-            <button id="week-today" class="text-button" type="button">Oggi</button>
-            <button id="week-next" class="icon-button" type="button" aria-label="Settimana successiva">›</button>
-          </div>
-        </div>
-        <div class="table-scroll"><table id="week-table" class="week-table"></table></div>
-      </section>
-
-      <section class="card" aria-labelledby="famous-title">
-        <p class="eyebrow">La stessa combinazione</p>
-        <h3 id="famous-title">Personaggi famosi</h3>
-        <div class="table-scroll"><table><tbody id="famous-people"></tbody></table></div>
-      </section>
-
-      <details class="card reading-card" open>
-        <summary>Profilo del numero psichico</summary>
-        <div id="signature-text" class="reading-text"></div>
-      </details>
-      <details class="card reading-card">
-        <summary>Combinazione con il Karma</summary>
-        <div id="karma-text" class="reading-text"></div>
-      </details>
+      <p class="week-scroll-hint">Scorri orizzontalmente per vedere tutti i numeri e i pianeti.</p>
+      <div class="table-scroll week-scroll"><table id="week-table" class="week-table"></table></div>
+      <div class="legend week-legend" aria-label="Legenda della settimana">
+        <span><i class="dot dot-good"></i>Favorevole</span>
+        <span><i class="dot dot-bad"></i>Da evitare</span>
+        <span><i class="dot dot-neutral"></i>Neutro</span>
+      </div>
+      <button id="save-week" class="button button-full week-save-button" type="button">Salva settimana</button>
     </section>
 
     <section class="card history-card" aria-labelledby="history-title">
