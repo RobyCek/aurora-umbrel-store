@@ -6,7 +6,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   server:
-    image: nginx:alpine@sha256:892bb2152464f0c5d8972593a5f5afaf8054552580b699d95f8ff4af08c2d33d
+    image: ghcr.io/robycek/numerologapp:1.0.3@sha256:23e4c46d571cde5b1121d03530d223197a76ee3244263724e4752f6900943ec0
     restart: on-failure
     init: true
     read_only: true
@@ -22,9 +22,6 @@ services:
       - /var/cache/nginx
       - /var/run
       - /tmp
-    volumes:
-      - ${APP_DATA_DIR}/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ${APP_DATA_DIR}/web:/usr/share/nginx/html:ro
     networks:
       default:
         aliases:
