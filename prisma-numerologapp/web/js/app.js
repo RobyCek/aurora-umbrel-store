@@ -5,7 +5,7 @@ import {
   calculateProfile,
   dayStatus,
   reduceNumber,
-} from './numerology.js';
+} from './numerology.js?v=1.0.4';
 
 const STORAGE_DRAFT = 'numerologapp.draft.v1';
 const STORAGE_HISTORY = 'numerologapp.history.v1';
@@ -528,7 +528,7 @@ async function initialize() {
   }
 
   if ('serviceWorker' in navigator && ['http:', 'https:'].includes(location.protocol)) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).catch(() => {});
   }
 }
 

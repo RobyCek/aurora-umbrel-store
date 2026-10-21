@@ -3,11 +3,12 @@ name: Publish NumerologApp image
 on:
   push:
     branches:
-      - numerologapp-1.0.3-container
+      - numerologapp-*
     paths:
       - .github/workflows/publish-numerologapp.yml
       - prisma-numerologapp/Dockerfile
       - prisma-numerologapp/nginx.conf
+      - prisma-numerologapp/umbrel-app.yml
       - prisma-numerologapp/web/**
   workflow_dispatch:
 
@@ -35,6 +36,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Read app version
+        id: app
+        shell: bash
+        run: |
+          version="$(sed -n 's/^version: "\([^"]*\)"/\1/p' prisma-numerologapp/umbrel-app.yml)"
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Build and publish
         uses: docker/build-push-action@v6
         with:
@@ -43,5 +52,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           provenance: false
-          tags: ghcr.io/robycek/numerologapp:1.0.3
+          tags: ghcr.io/robycek/numerologapp:${{ steps.app.outputs.version }}
 
