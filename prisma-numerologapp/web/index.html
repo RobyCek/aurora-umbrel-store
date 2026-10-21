@@ -9,7 +9,7 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-1024.png">
-  <link rel="stylesheet" href="./css/app.css?v=1.0.4">
+  <link rel="stylesheet" href="./css/app.css?v=1.0.5">
   <title>NumerologApp</title>
 </head>
 <body>
@@ -127,52 +127,56 @@
 
       <section id="panel-character" class="profile-panel" role="tabpanel" aria-labelledby="tab-character" data-profile-panel="character" hidden>
         <article class="card reading-panel-card">
-          <p class="eyebrow">Profilo personale</p>
-          <h3>🌟 Numero del Carattere</h3>
+          <div class="reading-panel-header">
+            <h3>🌟 Numero del Carattere</h3>
+          </div>
           <div id="signature-text" class="reading-text"></div>
         </article>
       </section>
 
       <section id="panel-karma" class="profile-panel" role="tabpanel" aria-labelledby="tab-karma" data-profile-panel="karma" hidden>
         <article class="card reading-panel-card">
-          <p class="eyebrow">Combinazione personale</p>
-          <h3>⚡ Psichico × Karma</h3>
+          <div class="reading-panel-header">
+            <h3>⚡ Psichico × Karma</h3>
+          </div>
           <div id="karma-text" class="reading-text"></div>
         </article>
       </section>
 
       <section id="panel-calendar" class="profile-panel" role="tabpanel" aria-labelledby="tab-calendar" data-profile-panel="calendar" hidden>
-        <section class="card" aria-labelledby="calendar-title">
-          <div class="calendar-heading">
-            <div>
-              <p class="eyebrow">Calendario personale</p>
-              <h3 id="calendar-title"></h3>
-            </div>
-            <div class="segmented-actions">
-              <button id="calendar-prev" class="icon-button" type="button" aria-label="Mese precedente">‹</button>
-              <button id="calendar-today" class="text-button" type="button">Oggi</button>
-              <button id="calendar-next" class="icon-button" type="button" aria-label="Mese successivo">›</button>
-            </div>
+        <section class="card personal-calendar-card" aria-labelledby="calendar-title">
+          <div class="personal-calendar-header">
+            <h3>📅 Calendario</h3>
+          </div>
+          <div class="personal-calendar-controls">
+            <button id="calendar-prev" class="calendar-nav-button" type="button" aria-label="Mese precedente">◀</button>
+            <h4 id="calendar-title" class="calendar-month-title"></h4>
+            <button id="calendar-today" class="calendar-today-button" type="button">Oggi</button>
+            <button id="calendar-next" class="calendar-nav-button" type="button" aria-label="Mese successivo">▶</button>
           </div>
           <div class="calendar-weekdays" aria-hidden="true">
             <span>Lun</span><span>Mar</span><span>Mer</span><span>Gio</span><span>Ven</span><span>Sab</span><span>Dom</span>
           </div>
           <div id="calendar-grid" class="calendar-grid"></div>
-          <div class="legend"><span><i class="dot dot-good"></i>Favorevole</span><span><i class="dot dot-bad"></i>Da evitare</span><span><i class="dot dot-neutral"></i>Neutro</span></div>
+          <div class="legend calendar-legend"><span><i class="dot dot-good"></i>Favorevole</span><span><i class="dot dot-bad"></i>Da evitare</span><span><i class="dot dot-neutral"></i>Neutro</span></div>
+          <p id="calendar-summary" class="calendar-summary"></p>
         </section>
       </section>
 
       <section id="panel-colors" class="profile-panel" role="tabpanel" aria-labelledby="tab-colors" data-profile-panel="colors" hidden>
-        <section class="card" aria-labelledby="colors-title">
-          <div class="section-heading compact">
-            <div>
-              <p class="eyebrow">Palette personale</p>
-              <h3 id="colors-title">Colori</h3>
-            </div>
+        <section class="card personal-colors-card" aria-labelledby="colors-title">
+          <div class="personal-colors-header">
+            <h3 id="colors-title">🎨 Palette personale</h3>
           </div>
-          <div class="color-columns">
-            <div><h4>Favorevoli</h4><div id="good-colors" class="color-list"></div></div>
-            <div><h4>Non positivi</h4><div id="bad-colors" class="color-list"></div></div>
+          <div class="color-groups">
+            <section class="color-group color-group-good">
+              <h4>✅ Colori favorevoli</h4>
+              <div id="good-colors" class="color-list"></div>
+            </section>
+            <section class="color-group color-group-bad">
+              <h4>❌ Colori non positivi</h4>
+              <div id="bad-colors" class="color-list"></div>
+            </section>
           </div>
         </section>
       </section>
@@ -194,9 +198,9 @@
       <p class="week-scroll-hint">Scorri orizzontalmente per vedere tutti i numeri e i pianeti.</p>
       <div class="table-scroll week-scroll"><table id="week-table" class="week-table"></table></div>
       <div class="legend week-legend" aria-label="Legenda della settimana">
-        <span><i class="dot dot-good"></i>Favorevole</span>
-        <span><i class="dot dot-bad"></i>Da evitare</span>
-        <span><i class="dot dot-neutral"></i>Neutro</span>
+        <span><i class="week-status-emoji" aria-hidden="true">🟢</i>Favorevole</span>
+        <span><i class="week-status-emoji" aria-hidden="true">🔴</i>Da evitare</span>
+        <span><i class="week-status-emoji" aria-hidden="true">⚪</i>Neutro</span>
       </div>
       <button id="save-week" class="button button-full week-save-button" type="button">Salva settimana</button>
     </section>
@@ -218,6 +222,6 @@
     <p>NumerologApp funziona offline. Le indicazioni hanno finalità culturali e di intrattenimento.</p>
   </footer>
 
-  <script type="module" src="./js/app.js?v=1.0.4"></script>
+  <script type="module" src="./js/app.js?v=1.0.5"></script>
 </body>
 </html>

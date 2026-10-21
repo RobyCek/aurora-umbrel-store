@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-numerologapp
 category: utilities
 name: NumerologApp
-version: "1.0.4"
+version: "1.0.5"
 tagline: Numerologia vedica privata e disponibile offline
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-numerologapp/icona.png
 description: >-
@@ -16,10 +16,18 @@ description: >-
   non sono necessari database, Python, account o servizi cloud. Dopo il primo
   caricamento l'app può continuare a funzionare offline come PWA.
 releaseNotes: >-
-  Corretto l'aggiornamento della PWA eliminando la cache della vecchia
-  interfaccia. Sono ora caricati correttamente i comandi Riepilogo, Numero del
-  Carattere, Karma, Calendario e Colori, i nomi dei pianeti, gli indicatori più
-  grandi e la tabella settimanale completa.
+  Il calendario personale riprende l'aspetto dell'app originale: intestazione
+  dedicata, comandi del mese su una riga separata, giorni favorevoli e da
+  evitare evidenziati con celle colorate e riepilogo dei giorni sotto la
+  legenda. Anche la palette personale torna al formato originale, con campioni
+  grandi e gruppi distinti per colori favorevoli e non positivi. Le letture del
+  carattere e del karma sono nuovamente mostrate su un riquadro chiaro ad alto
+  contrasto, come nell'interfaccia originale. La tabella settimanale usa emoji
+  verdi, rosse e bianche più chiare anche sugli schermi mobili. Su desktop le
+  sezioni del profilo occupano ora la stessa larghezza delle card principali e
+  i cinque pulsanti di navigazione sono distribuiti uniformemente nello spazio.
+  In verticale su mobile, la tabella settimanale mostra tutte le colonne usando
+  giorni e pianeti abbreviati.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []
