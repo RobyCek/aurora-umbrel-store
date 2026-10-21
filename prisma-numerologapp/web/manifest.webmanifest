@@ -1,0 +1,21 @@
+{
+  "name": "NumerologApp",
+  "short_name": "Numerolog",
+  "description": "Numerologia vedica disponibile anche offline.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d0d1a",
+  "theme_color": "#0d0d1a",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "./icons/icon-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
