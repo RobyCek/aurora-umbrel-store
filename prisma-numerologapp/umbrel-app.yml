@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-numerologapp
 category: utilities
 name: NumerologApp
-version: "1.0.0"
+version: "1.0.1"
 tagline: Numerologia vedica privata e disponibile offline
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-numerologapp/icona.png
 description: >-
@@ -16,8 +16,8 @@ description: >-
   non sono necessari database, Python, account o servizi cloud. Dopo il primo
   caricamento l'app può continuare a funzionare offline come PWA.
 releaseNotes: >-
-  Prima versione per Umbrel, con interfaccia responsive, supporto PWA e tutti
-  i calcoli eseguiti localmente sul dispositivo.
+  Corretto il percorso dei file statici per l'installazione su umbrelOS 2.0.
+  Include interfaccia responsive, supporto PWA e calcoli eseguiti localmente.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []
