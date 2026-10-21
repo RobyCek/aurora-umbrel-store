@@ -1,8 +1,13 @@
 # Prisma Informatica — negozio di app per Umbrel
 
 Questo repository è il **negozio comunitario** di Prisma Informatica per
-umbrelOS. Oggi contiene un'app sola: **Aurora**, il server del CRM
-(`prisma-aurora/`).
+umbrelOS. Contiene **Aurora**, il server del CRM (`prisma-aurora/`), e
+**NumerologApp**, l'app di numerologia vedica (`prisma-numerologapp/`).
+
+NumerologApp non usa database e non riceve dati personali: Umbrel distribuisce
+soltanto i file statici della PWA, mentre i calcoli vengono eseguiti nel browser
+del dispositivo. Dopo aver aggiunto questo negozio, apri **NumerologApp** e
+premi **Installa**; la sua porta Umbrel è `2970`.
 
 ## Installazione per il cliente — 10 passaggi
 
@@ -69,7 +74,7 @@ utenti. Non vanno inserite nel repository né mostrate nei log.
 Prima di pubblicare, il linter ufficiale di Umbrel (dal repository
 `getumbrel/umbrel-apps`, con `npm install` fatto una volta):
 
-    npm run lint:apps -- prisma-aurora --root /Users/robycek/aurora-umbrel-store
+    npm run lint:apps -- prisma-aurora prisma-numerologapp --root /Users/robycek/aurora-umbrel-store
 
 Con `--check-images` in più il linter interroga anche i registri: segnala che
 l'immagine di Aurora è solo `linux/amd64` — è voluto (l'Umbrel Home è Intel;
@@ -80,3 +85,6 @@ l'immagine di Aurora è solo `linux/amd64` — è voluto (l'Umbrel Home è Intel
 `prisma-aurora/icona.png` (512 px, logo bianco sul blu di Aurora, sfondo
 pieno: su Umbrel le tessere stanno su fondo scuro e un PNG trasparente si
 perdeva). Il sorgente è `prisma-aurora/icona_sorgente.svg`.
+
+`prisma-numerologapp/icona.png` (1024 px) usa lo stesso fondo scuro e oro
+dell'app mobile e della PWA.

@@ -1,0 +1,32 @@
+manifestVersion: 1
+id: prisma-numerologapp
+category: utilities
+name: NumerologApp
+version: "1.0.0"
+tagline: Numerologia vedica privata e disponibile offline
+icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-numerologapp/icona.png
+description: >-
+  NumerologApp calcola il profilo di numerologia vedica usando nome e data di
+  nascita. Mostra numero psichico, karma, firma, frequenza del nome, giorni e
+  colori, calendario e tutte le combinazioni numerologiche disponibili.
+
+
+  L'elaborazione avviene nel browser e nessun dato personale viene inviato a
+  un servizio esterno. Il server Umbrel distribuisce soltanto file statici:
+  non sono necessari database, Python, account o servizi cloud. Dopo il primo
+  caricamento l'app può continuare a funzionare offline come PWA.
+releaseNotes: >-
+  Prima versione per Umbrel, con interfaccia responsive, supporto PWA e tutti
+  i calcoli eseguiti localmente sul dispositivo.
+developer: Prisma Informatica s.a.s.
+website: https://www.xprisma.it
+dependencies: []
+repo: https://github.com/RobyCek/aurora-umbrel-store
+support: mailto:info@xprisma.it
+port: 2970
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: Prisma Informatica
+submission: https://github.com/RobyCek/aurora-umbrel-store
