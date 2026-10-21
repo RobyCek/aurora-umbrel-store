@@ -6,28 +6,30 @@ services:
       PROXY_AUTH_ADD: "false"
 
   server:
-    image: ghcr.io/robycek/numerologapp:1.0.5@sha256:05cb9caecdcf6b587858a6119953ac508a132d700032e53677e8a475dfa831b2
+    image: ghcr.io/robycek/numerologapp:1.1.0@sha256:29b9fa70d35486baa11867d49b45c9dc8a2220d654007f64c82148126ac1812b
     restart: on-failure
     init: true
     read_only: true
     cap_drop:
       - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
     security_opt:
       - no-new-privileges:true
+    environment:
+      LICENSE_ADMIN_TOKEN: ${APP_PASSWORD}
+      LICENSE_DATA_DIR: /data
+      LICENSE_OFFLINE_DAYS: "30"
+      PORT: "8080"
+      WEB_DIR: /app/web
+    volumes:
+      - ${APP_DATA_DIR}/data/licenses:/data
     tmpfs:
-      - /var/cache/nginx
-      - /var/run
-      - /tmp
+      - /tmp:size=16m,mode=1777
     networks:
       default:
         aliases:
           - prisma-numerologapp_server_1
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/index.html"]
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
       interval: 30s
       timeout: 5s
       retries: 3

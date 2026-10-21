@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0d1a">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="./admin/admin.css?v=1.1.0">
+  <title>Licenze · NumerologApp</title>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">NumerologApp</p>
+        <h1>Gestione licenze</h1>
+      </div>
+      <button id="logout" class="button button-secondary" type="button" hidden>Blocca pannello</button>
+    </header>
+
+    <section id="login-card" class="card auth-card">
+      <h2>Accesso amministratore</h2>
+      <p>Inserisci il token amministrativo generato dal server. Rimane soltanto in questa scheda.</p>
+      <form id="login-form">
+        <label for="admin-token">Token amministrativo</label>
+        <input id="admin-token" type="password" autocomplete="off" required>
+        <p id="login-error" class="error" role="alert"></p>
+        <button class="button button-primary" type="submit">Accedi</button>
+      </form>
+    </section>
+
+    <div id="dashboard" hidden>
+      <section class="card create-card">
+        <div>
+          <p class="eyebrow">Nuove abilitazioni</p>
+          <h2>Crea codici</h2>
+        </div>
+        <form id="create-form" class="create-form">
+          <label>Nome o riferimento
+            <input id="code-label" maxlength="120" placeholder="Es. Mario Rossi">
+          </label>
+          <label>Quantità
+            <input id="code-count" type="number" min="1" max="100" value="1" required>
+          </label>
+          <button class="button button-primary" type="submit">Genera</button>
+        </form>
+        <div id="new-codes" class="new-codes" hidden></div>
+      </section>
+
+      <section class="card list-card">
+        <div class="list-heading">
+          <div>
+            <p class="eyebrow">Archivio</p>
+            <h2>Codici e dispositivi</h2>
+          </div>
+          <button id="refresh" class="button button-secondary" type="button">Aggiorna</button>
+        </div>
+        <p id="dashboard-error" class="error" role="alert"></p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Persona</th><th>Stato</th><th>Dispositivo</th><th>Attivazione</th><th>Azioni</th></tr></thead>
+            <tbody id="license-list"></tbody>
+          </table>
+        </div>
+        <p id="empty-list" class="empty">Nessun codice creato.</p>
+      </section>
+    </div>
+  </main>
+  <script type="module" src="./admin/admin.js?v=1.1.0"></script>
+</body>
+</html>
