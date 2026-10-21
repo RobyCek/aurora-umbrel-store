@@ -7,7 +7,6 @@ on:
     paths:
       - .github/workflows/publish-numerologapp.yml
       - prisma-numerologapp/Dockerfile
-      - prisma-numerologapp/docker-compose.yml
       - prisma-numerologapp/nginx.conf
       - prisma-numerologapp/server/**
       - prisma-numerologapp/umbrel-app.yml
