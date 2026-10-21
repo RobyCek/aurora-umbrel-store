@@ -1,9 +1,12 @@
-const CACHE_NAME = 'numerologapp-v5';
+const CACHE_NAME = 'numerologapp-v6';
 const APP_FILES = [
   './',
   './index.html',
-  './css/app.css?v=1.0.5',
-  './js/app.js?v=1.0.5',
+  './css/app.css?v=1.1.0',
+  './js/app.js?v=1.1.0',
+  './js/license.js?v=1.1.0',
+  './js/license-config.js?v=1.1.0',
+  './js/license-core.js?v=1.1.0',
   './js/numerology.js?v=1.0.5',
   './data/numerologia.md',
   './manifest.webmanifest',

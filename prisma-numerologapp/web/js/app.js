@@ -6,6 +6,7 @@ import {
   dayStatus,
   reduceNumber,
 } from './numerology.js?v=1.0.5';
+import { ensureDeviceLicense } from './license.js?v=1.1.0';
 
 const STORAGE_DRAFT = 'numerologapp.draft.v1';
 const STORAGE_HISTORY = 'numerologapp.history.v1';
@@ -525,6 +526,12 @@ byId('install-button').addEventListener('click', async () => {
 window.addEventListener('appinstalled', () => { byId('install-button').hidden = true; });
 
 async function initialize() {
+  try {
+    await ensureDeviceLicense();
+  } catch (error) {
+    formError.textContent = `Impossibile verificare la licenza: ${error.message}`;
+    return;
+  }
   byId('birth-date').max = localDateKey(new Date());
   updateConnectionStatus();
   renderHistory();

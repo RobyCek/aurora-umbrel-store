@@ -2,8 +2,8 @@ manifestVersion: 1
 id: prisma-numerologapp
 category: utilities
 name: NumerologApp
-version: "1.0.5"
-tagline: Numerologia vedica privata e disponibile offline
+version: "1.1.0"
+tagline: Numerologia vedica con licenze personali e utilizzo offline
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-numerologapp/icona.png
 description: >-
   NumerologApp calcola il profilo di numerologia vedica usando nome e data di
@@ -11,23 +11,15 @@ description: >-
   colori, calendario e tutte le combinazioni numerologiche disponibili.
 
 
-  L'elaborazione avviene nel browser e nessun dato personale viene inviato a
-  un servizio esterno. Il server Umbrel distribuisce soltanto file statici:
-  non sono necessari database, Python, account o servizi cloud. Dopo il primo
-  caricamento l'app può continuare a funzionare offline come PWA.
+  L'elaborazione avviene sul dispositivo e nomi, date di nascita e consulti non
+  vengono inviati a servizi esterni. Umbrel gestisce codici personali associati
+  a un solo dispositivo e licenze firmate che consentono l'utilizzo offline.
 releaseNotes: >-
-  Il calendario personale riprende l'aspetto dell'app originale: intestazione
-  dedicata, comandi del mese su una riga separata, giorni favorevoli e da
-  evitare evidenziati con celle colorate e riepilogo dei giorni sotto la
-  legenda. Anche la palette personale torna al formato originale, con campioni
-  grandi e gruppi distinti per colori favorevoli e non positivi. Le letture del
-  carattere e del karma sono nuovamente mostrate su un riquadro chiaro ad alto
-  contrasto, come nell'interfaccia originale. La tabella settimanale usa emoji
-  verdi, rosse e bianche più chiare anche sugli schermi mobili. Su desktop le
-  sezioni del profilo occupano ora la stessa larghezza delle card principali e
-  i cinque pulsanti di navigazione sono distribuiti uniformemente nello spazio.
-  In verticale su mobile, la tabella settimanale mostra tutte le colonne usando
-  giorni e pianeti abbreviati.
+  Aggiunto il sistema di abilitazione personale per le app native. Ogni codice
+  viene associato alla chiave crittografica di un solo dispositivo. Le licenze
+  sono firmate e restano valide offline per 30 giorni. Un nuovo pannello
+  amministrativo permette di creare, revocare e trasferire i codici senza
+  raccogliere i dati personali usati nei calcoli numerologici.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []

@@ -36,6 +36,60 @@ body {
     var(--bg);
 }
 
+body.license-locked { overflow: hidden; }
+
+.license-gate {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  background:
+    radial-gradient(circle at 20% 0%, rgba(70, 62, 116, 0.48), transparent 30rem),
+    radial-gradient(circle at 100% 80%, rgba(121, 86, 38, 0.22), transparent 28rem),
+    #0a0a14;
+}
+
+.license-card {
+  width: min(100%, 470px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: clamp(26px, 7vw, 42px);
+  background: rgba(25, 25, 49, 0.96);
+  box-shadow: var(--shadow);
+}
+
+.license-mark {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 24px;
+  place-items: center;
+  border: 1px solid rgba(217, 188, 125, 0.65);
+  border-radius: 50%;
+  color: var(--gold-bright);
+  background: linear-gradient(145deg, #29294d, #121224);
+  font-family: Georgia, serif;
+  font-size: 34px;
+}
+
+.license-card h1 {
+  margin: 6px 0 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 8vw, 44px);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.license-description, .license-help { color: var(--muted); line-height: 1.55; }
+.license-description { margin: 0 0 24px; }
+.license-help { margin: 18px 0 0; text-align: center; font-size: 11px; }
+.license-card label { display: block; margin-bottom: 8px; color: #dedbe6; font-size: 13px; font-weight: 700; }
+.license-card input { letter-spacing: 0.09em; text-align: center; text-transform: uppercase; }
+.license-error { min-height: 40px; margin: 10px 0; color: #ff999b; font-size: 13px; line-height: 1.45; }
+
 button, input { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 [hidden] { display: none !important; }
