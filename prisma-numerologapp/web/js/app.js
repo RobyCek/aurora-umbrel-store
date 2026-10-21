@@ -5,20 +5,27 @@ import {
   calculateProfile,
   dayStatus,
   reduceNumber,
-} from './numerology.js?v=1.0.4';
+} from './numerology.js?v=1.0.5';
 
 const STORAGE_DRAFT = 'numerologapp.draft.v1';
 const STORAGE_HISTORY = 'numerologapp.history.v1';
+const LOCAL_PREVIEW_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]']);
 const MONTHS = [
   'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
   'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre',
 ];
 const WEEKDAYS = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+const WEEKDAYS_SHORT = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
 const MONTHS_SHORT = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'];
 const WEEK_PLANETS = Object.freeze({
   1: 'Sole', 2: 'Luna', 3: 'Giove', 4: 'Urano/Rahu', 5: 'Mercurio',
   6: 'Venere', 7: 'Nettuno/Ketu', 8: 'Saturno', 9: 'Marte',
 });
+const WEEK_PLANETS_SHORT = Object.freeze({
+  1: 'Sole', 2: 'Luna', 3: 'Giove', 4: 'U/R', 5: 'Merc.',
+  6: 'Ven.', 7: 'N/K', 8: 'Sat.', 9: 'Marte',
+});
+const WEEK_STATUS_EMOJI = Object.freeze({ good: '🟢', bad: '🔴', neutral: '⚪' });
 
 const state = {
   markdown: '',
@@ -150,10 +157,11 @@ function renderColors(id, colors) {
     return;
   }
   for (const color of colors) {
-    const chip = makeElement('span', 'color-chip');
+    const chip = makeElement('span', 'color-tile');
     const swatch = makeElement('i', 'color-swatch');
+    const label = makeElement('span', 'color-name', color.charAt(0).toUpperCase() + color.slice(1));
     swatch.style.backgroundColor = COLOR_HEX[color] ?? '#555568';
-    chip.append(swatch, document.createTextNode(color.charAt(0).toUpperCase() + color.slice(1)));
+    chip.append(swatch, label);
     container.append(chip);
   }
 }
@@ -206,18 +214,25 @@ function renderCalendar() {
   const firstWeekday = new Date(year, month, 1).getDay() || 7;
   const numberOfDays = new Date(year, month + 1, 0).getDate();
   const todayKey = localDateKey(new Date());
+  const favorableDays = [];
+  const avoidDays = [];
 
   for (let index = 1; index < firstWeekday; index += 1) {
     grid.append(makeElement('span', 'calendar-day blank'));
   }
   for (let day = 1; day <= numberOfDays; day += 1) {
     const date = new Date(year, month, day);
-    const classes = ['calendar-day', profileDayStatus(day)];
+    const status = profileDayStatus(day);
+    const classes = ['calendar-day', status];
     if (localDateKey(date) === todayKey) classes.push('today');
     const item = makeElement('span', classes.join(' '), String(day));
-    item.title = profileDayStatus(day) === 'good' ? 'Favorevole' : profileDayStatus(day) === 'bad' ? 'Da evitare' : 'Neutro';
+    item.title = status === 'good' ? 'Favorevole' : status === 'bad' ? 'Da evitare' : 'Neutro';
+    if (status === 'good') favorableDays.push(day);
+    if (status === 'bad') avoidDays.push(day);
     grid.append(item);
   }
+
+  byId('calendar-summary').textContent = `Favorevoli: ${favorableDays.join(', ') || '—'} | Da evitare: ${avoidDays.join(', ') || '—'}`;
 }
 
 function renderWeek() {
@@ -235,7 +250,8 @@ function renderWeek() {
     const heading = document.createElement('th');
     heading.append(
       makeElement('span', 'week-number', String(number)),
-      makeElement('span', 'week-planet', WEEK_PLANETS[number]),
+      makeElement('span', 'week-planet week-planet-full', WEEK_PLANETS[number]),
+      makeElement('span', 'week-planet week-planet-short', WEEK_PLANETS_SHORT[number]),
     );
     heading.title = `${number} · ${WEEK_PLANETS[number]}`;
     headRow.append(heading);
@@ -248,16 +264,21 @@ function renderWeek() {
   days.forEach((date, index) => {
     const row = document.createElement('tr');
     if (localDateKey(date) === todayKey) row.className = 'week-today-row';
-    row.append(makeElement('td', '', `${WEEKDAYS[index]} ${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`));
+    const dayCell = document.createElement('td');
+    dayCell.append(
+      makeElement('span', 'week-day-full', `${WEEKDAYS[index]} ${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`),
+      makeElement('span', 'week-day-short', `${WEEKDAYS_SHORT[index]} ${date.getDate()}/${date.getMonth() + 1}`),
+    );
+    row.append(dayCell);
     for (let number = 1; number <= 9; number += 1) {
       const status = dayStatus(date.getDate(), number, state.dayMap);
       const cell = document.createElement('td');
-      const dot = makeElement('span', `week-dot ${status}`);
+      const indicator = makeElement('span', 'week-status-emoji', WEEK_STATUS_EMOJI[status]);
       const statusLabel = status === 'good' ? 'Favorevole' : status === 'bad' ? 'Da evitare' : 'Neutro';
-      dot.title = `${WEEK_PLANETS[number]}: ${statusLabel}`;
-      dot.setAttribute('role', 'img');
-      dot.setAttribute('aria-label', `${WEEK_PLANETS[number]}: ${statusLabel}`);
-      cell.append(dot);
+      indicator.title = `${WEEK_PLANETS[number]}: ${statusLabel}`;
+      indicator.setAttribute('role', 'img');
+      indicator.setAttribute('aria-label', `${WEEK_PLANETS[number]}: ${statusLabel}`);
+      cell.append(indicator);
       row.append(cell);
     }
     body.append(row);
@@ -528,7 +549,16 @@ async function initialize() {
   }
 
   if ('serviceWorker' in navigator && ['http:', 'https:'].includes(location.protocol)) {
-    navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).catch(() => {});
+    if (LOCAL_PREVIEW_HOSTS.has(location.hostname)) {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map((registration) => registration.unregister()));
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+      }
+    } else {
+      navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).catch(() => {});
+    }
   }
 }
 

@@ -6,7 +6,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   server:
-    image: ghcr.io/robycek/numerologapp:1.0.4@sha256:f364985ceebbf84c8200243c33054044b5bb0ce785bd96b93b174ac0b2ba1c51
+    image: ghcr.io/robycek/numerologapp:1.0.5
     restart: on-failure
     init: true
     read_only: true
