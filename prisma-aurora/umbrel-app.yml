@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora
-version: "1.0.108"
+version: "1.0.109"
 tagline: Il CRM di Prisma Informatica, sul tuo server di casa
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,8 +30,8 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Dopo un controllo Google Contatti riuscito rimuove il vecchio messaggio di
-  errore OAuth, lasciando visibili soltanto i problemi ancora attuali.
+  Aggiunge il catalogo autenticato e verificato per gli aggiornamenti dei sei
+  moduli Aurora, mantenendo intatti i dati e le personalizzazioni esistenti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
