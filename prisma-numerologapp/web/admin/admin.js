@@ -52,7 +52,9 @@ async function loadCodes() {
       badge.textContent = statusLabel(license.status);
       status.append(badge);
       const device = document.createElement('td');
-      device.textContent = license.deviceLabel || '—';
+      device.textContent = license.maxDevices > 1
+        ? `${license.activationCount} / ${license.maxDevices}`
+        : (license.deviceLabel || '—');
       const activated = document.createElement('td');
       activated.textContent = formatDate(license.activatedAt);
       const actions = document.createElement('td');
@@ -137,6 +139,7 @@ byId('create-form').addEventListener('submit', async (event) => {
       body: {
         label: byId('code-label').value,
         count: Number(byId('code-count').value),
+        maxDevices: Number(byId('max-devices').value),
       },
     });
     showCreatedCodes(result.codes);

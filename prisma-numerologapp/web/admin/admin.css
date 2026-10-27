@@ -34,7 +34,8 @@ input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(217,188,125,
 .button-secondary { color: var(--text); background: var(--surface-raised); }
 .auth-card .button { width: 100%; }
 .error { min-height: 20px; color: var(--bad); font-size: 13px; }
-.create-form { display: grid; grid-template-columns: minmax(220px, 1fr) 110px auto; align-items: end; gap: 14px; margin-top: 22px; }
+.create-form { display: grid; grid-template-columns: minmax(220px, 1fr) 110px 150px auto; align-items: end; gap: 14px; margin-top: 22px; }
+.form-help { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
 .new-codes { display: grid; gap: 8px; margin-top: 20px; border-radius: 14px; padding: 16px; color: #171717; background: #fffdeb; }
 .new-code { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid rgba(0,0,0,.1); padding: 7px 0; }
 .new-code:last-child { border-bottom: 0; }

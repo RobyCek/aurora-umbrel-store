@@ -193,9 +193,21 @@ class LicenseStore {
   findById(id) {
     return this.state.codes.find((entry) => entry.id === id);
   }
+
+  findLicenseById(id) {
+    for (const entry of this.state.codes) {
+      if ((entry.maxDevices ?? 1) === 1 && entry.id === id) {
+        return { entry, activation: entry };
+      }
+      const activation = entry.activations?.find((item) => item.id === id);
+      if (activation) return { entry, activation };
+    }
+    return null;
+  }
 }
 
 function publicCode(entry) {
+  const maxDevices = entry.maxDevices ?? 1;
   return {
     id: entry.id,
     label: entry.label,
@@ -204,6 +216,10 @@ function publicCode(entry) {
     activatedAt: entry.activatedAt ?? null,
     lastRefreshAt: entry.lastRefreshAt ?? null,
     deviceLabel: entry.deviceLabel ?? null,
+    maxDevices,
+    activationCount: maxDevices === 1
+      ? Number(entry.status === 'active')
+      : (entry.activations?.length ?? 0),
   };
 }
 
@@ -333,32 +349,58 @@ export async function createLicenseServer(options = {}) {
         }
         const publicJwk = stableDeviceJwk(body.devicePublicKey);
         const thumbprint = deviceThumbprint(publicJwk);
-        if (entry.status === 'active' && entry.deviceThumbprint !== thumbprint) {
-          jsonResponse(response, 409, { error: 'Questo codice è già associato a un altro dispositivo.' }, { ...securityHeaders(), ...cors });
-          return;
-        }
-        if (entry.status === 'available') {
+        const deviceLabel = String(body.deviceLabel ?? '').slice(0, 120) || 'Dispositivo';
+        const maxDevices = entry.maxDevices ?? 1;
+        let activation = entry;
+        if (maxDevices === 1) {
+          if (entry.status === 'active' && entry.deviceThumbprint !== thumbprint) {
+            jsonResponse(response, 409, { error: 'Questo codice è già associato a un altro dispositivo.' }, { ...securityHeaders(), ...cors });
+            return;
+          }
+          if (entry.status === 'available') {
+            entry.status = 'active';
+            entry.devicePublicKey = publicJwk;
+            entry.deviceThumbprint = thumbprint;
+            entry.deviceLabel = deviceLabel;
+            entry.activatedAt = new Date().toISOString();
+          }
+        } else {
+          entry.activations ??= [];
+          activation = entry.activations.find((item) => item.deviceThumbprint === thumbprint);
+          if (!activation) {
+            if (entry.activations.length >= maxDevices) {
+              jsonResponse(response, 409, { error: 'Questo codice ha raggiunto il numero massimo di dispositivi.' }, { ...securityHeaders(), ...cors });
+              return;
+            }
+            activation = {
+              id: randomBytes(12).toString('base64url'),
+              devicePublicKey: publicJwk,
+              deviceThumbprint: thumbprint,
+              deviceLabel,
+              activatedAt: new Date().toISOString(),
+            };
+            entry.activations.push(activation);
+          }
           entry.status = 'active';
-          entry.devicePublicKey = publicJwk;
-          entry.deviceThumbprint = thumbprint;
-          entry.deviceLabel = String(body.deviceLabel ?? '').slice(0, 120) || 'Dispositivo';
-          entry.activatedAt = new Date().toISOString();
+          entry.activatedAt ??= activation.activatedAt;
         }
-        entry.lastRefreshAt = new Date().toISOString();
+        activation.lastRefreshAt = new Date().toISOString();
+        entry.lastRefreshAt = activation.lastRefreshAt;
         await store.persist();
-        jsonResponse(response, 200, createLicenseToken(store, entry, offlineDays), { ...securityHeaders(), ...cors });
+        jsonResponse(response, 200, createLicenseToken(store, activation, offlineDays), { ...securityHeaders(), ...cors });
         return;
       }
 
       if (request.method === 'POST' && url.pathname === '/api/license/challenge') {
         const body = await readJsonBody(request);
-        const entry = store.findById(String(body.licenseId ?? ''));
-        if (!entry || entry.status !== 'active') {
+        const resolved = store.findLicenseById(String(body.licenseId ?? ''));
+        if (!resolved || resolved.entry.status !== 'active') {
           jsonResponse(response, 403, { error: 'Licenza non attiva.' }, { ...securityHeaders(), ...cors });
           return;
         }
+        const { activation } = resolved;
         const nonce = randomBytes(24).toString('base64url');
-        challenges.set(entry.id, { nonce, expiresAt: Date.now() + CHALLENGE_TTL_MS });
+        challenges.set(activation.id, { nonce, expiresAt: Date.now() + CHALLENGE_TTL_MS });
         jsonResponse(response, 200, { nonce }, { ...securityHeaders(), ...cors });
         return;
       }
@@ -366,17 +408,18 @@ export async function createLicenseServer(options = {}) {
       if (request.method === 'POST' && url.pathname === '/api/license/refresh') {
         const body = await readJsonBody(request);
         const licenseId = String(body.licenseId ?? '');
-        const entry = store.findById(licenseId);
+        const resolved = store.findLicenseById(licenseId);
         const challenge = challenges.get(licenseId);
         challenges.delete(licenseId);
-        if (!entry || entry.status !== 'active' || !challenge || challenge.expiresAt < Date.now() || challenge.nonce !== body.nonce) {
+        if (!resolved || resolved.entry.status !== 'active' || !challenge || challenge.expiresAt < Date.now() || challenge.nonce !== body.nonce) {
           jsonResponse(response, 403, { error: 'Rinnovo della licenza non autorizzato.' }, { ...securityHeaders(), ...cors });
           return;
         }
+        const { entry, activation } = resolved;
         let signatureValid = false;
         try {
           signatureValid = verify('sha256', Buffer.from(`${licenseId}.${challenge.nonce}`), {
-            key: createPublicKey({ key: entry.devicePublicKey, format: 'jwk' }),
+            key: createPublicKey({ key: activation.devicePublicKey, format: 'jwk' }),
             dsaEncoding: 'ieee-p1363',
           }, Buffer.from(String(body.signature ?? ''), 'base64url'));
         } catch {
@@ -386,9 +429,10 @@ export async function createLicenseServer(options = {}) {
           jsonResponse(response, 403, { error: 'Firma del dispositivo non valida.' }, { ...securityHeaders(), ...cors });
           return;
         }
-        entry.lastRefreshAt = new Date().toISOString();
+        activation.lastRefreshAt = new Date().toISOString();
+        entry.lastRefreshAt = activation.lastRefreshAt;
         await store.persist();
-        jsonResponse(response, 200, createLicenseToken(store, entry, offlineDays), { ...securityHeaders(), ...cors });
+        jsonResponse(response, 200, createLicenseToken(store, activation, offlineDays), { ...securityHeaders(), ...cors });
         return;
       }
 
@@ -416,6 +460,7 @@ export async function createLicenseServer(options = {}) {
         if (request.method === 'POST' && url.pathname === '/api/admin/codes') {
           const body = await readJsonBody(request);
           const count = Math.max(1, Math.min(100, Number(body.count) || 1));
+          const maxDevices = Math.max(1, Math.min(20, Number(body.maxDevices) || 1));
           const label = String(body.label ?? '').trim().slice(0, 120);
           const created = [];
           for (let index = 0; index < count; index += 1) {
@@ -427,6 +472,7 @@ export async function createLicenseServer(options = {}) {
               label: count === 1 ? label : `${label || 'Licenza'} ${index + 1}`,
               status: 'available',
               createdAt: new Date().toISOString(),
+              ...(maxDevices > 1 ? { maxDevices, activations: [] } : {}),
             };
             store.state.codes.unshift(entry);
             created.push({ ...publicCode(entry), code });
@@ -454,6 +500,8 @@ export async function createLicenseServer(options = {}) {
             delete entry.activatedAt;
             delete entry.lastRefreshAt;
             delete entry.revokedAt;
+            delete entry.activations;
+            if ((entry.maxDevices ?? 1) > 1) entry.activations = [];
           }
           await store.persist();
           jsonResponse(response, 200, { code: publicCode(entry) }, securityHeaders());
