@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.131"
+version: "1.0.132"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -30,10 +30,10 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Separa i valori numerici dalla grafica dei cruscotti, così arco, tacche e
-  lancetta restano sempre leggibili. Durante l'installazione dell'Intelligenza
-  mostra fase corrente, barra di avanzamento, tempo trascorso ed esito finale.
-  Database, allegati, configurazioni e copie esistenti restano intatti.
+  Allinea Aurora Server Manager al nuovo installatore guidato: Umbrel viene
+  presentato come server aziendale già pronto, con spiegazioni semplici su
+  dati, manutenzione, continuità e Intelligenza locale. Database, allegati,
+  configurazioni e copie esistenti restano intatti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
