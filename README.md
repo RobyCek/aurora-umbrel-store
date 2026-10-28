@@ -57,14 +57,14 @@ utenti. Non vanno inserite nel repository né mostrate nei log.
 
 1. Nel repository Aurora: alza `VERSIONE_SERVER` in `versione.py`, commit,
    tag `vX.Y.Z`, push del tag → l'azione GitHub pubblica
-   `ghcr.io/robycek/aurora:X.Y.Z`.
+   `ghcr.io/robycek/aurora-server-private:X.Y.Z`.
 2. Qui: scrivi `X.Y.Z` in `prisma-aurora/umbrel-app.yml` (`version`) e nella
    riga `image:` del server in `prisma-aurora/docker-compose.yml`, con il
    digest accanto al tag (Umbrel accetta solo immagini fissate così). Il
    digest lo scrive il riepilogo dell'azione GitHub che ha costruito
    l'immagine; oppure lo chiedi all'Umbrel, che Docker ce l'ha (sul Mac no):
 
-       ssh -t umbrel@umbrel.local "sudo docker buildx imagetools inspect ghcr.io/robycek/aurora:X.Y.Z --format '{{.Manifest.Digest}}'"
+       ssh -t umbrel@umbrel.local "sudo docker buildx imagetools inspect ghcr.io/robycek/aurora-server-private:X.Y.Z --format '{{.Manifest.Digest}}'"
 
    `aggiorna_immagini.sh` fa la stessa cosa per tutte le immagini del compose
    in un colpo, ma vuole Docker: si lancia da un computer che ce l'ha (o
@@ -76,9 +76,9 @@ Prima di pubblicare, il linter ufficiale di Umbrel (dal repository
 
     npm run lint:apps -- prisma-aurora prisma-numerologapp --root /Users/robycek/aurora-umbrel-store
 
-Con `--check-images` in più il linter interroga anche i registri: segnala che
-l'immagine di Aurora è solo `linux/amd64` — è voluto (l'Umbrel Home è Intel;
-`arm64` alla Tappa 7 del piano).
+Con `--check-images` in più il linter interroga anche i registri. L'immagine
+Aurora deve contenere almeno `linux/amd64` e `linux/arm64` nello stesso indice
+multi-arch fissato dal digest.
 
 ## L'icona
 
