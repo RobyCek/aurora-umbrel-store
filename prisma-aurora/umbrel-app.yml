@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.129"
+version: "1.0.130"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -14,7 +14,7 @@ description: >-
 
   Questa app installa il server di Aurora sul tuo Umbrel: il database
   PostgreSQL con i dati, il server che le app di Aurora interrogano, il
-  collegamento all'app ufficiale Ollama per l'Intelligenza e un backup automatico ogni notte
+  installazione guidata dell'Intelligenza locale e un backup automatico ogni notte
   (ne restano trenta, nella cartella dell'app, compresi nei backup di
   umbrelOS).
 
@@ -30,15 +30,13 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Mostra chiaramente il nome Server Umbrel e distingue lo spazio del server
-  dalla dimensione del database. Aggiunge il cambio password amministratore
-  e rende affidabile l'accesso anche nei browser dietro proxy Cloudflare.
-  Database, allegati, configurazioni e copie esistenti restano intatti.
+  Aggiunge i cruscotti a lancetta per database, disco e RAM, riconosce i
+  dispositivi collegati e permette di installare l'Intelligenza locale con un
+  solo pulsante dal Server Manager. Database, allegati, configurazioni e copie
+  esistenti restano intatti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
-dependencies:
-  - ollama
 repo: https://github.com/RobyCek/aurora-umbrel-store
 support: mailto:info@xprisma.it
 

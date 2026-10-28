@@ -12,8 +12,9 @@
 #   server      Aurora, dall'immagine privata autorizzata di Prisma su ghcr.io.
 #   backup      ogni notte alle 02:00 un pg_dump in ${APP_DATA_DIR}/data/backup,
 #               ne tiene 30, e uno subito al primo avvio.
-#   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili e
-#               usa l'app Ollama ufficiale di Umbrel.
+#   ollama      motore locale facoltativo, installato dal Server Manager.
+#   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili;
+#               viene installato insieme a Ollama dal Server Manager.
 #   manager_agent osserva i servizi ed esegue soltanto le manutenzioni
 #               dichiarate dal pannello Server Manager.
 #
@@ -60,7 +61,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.129@sha256:8e158f2d5b90e7f85e7299d9af306f688a019d724dac7f84be20f9dec2308178
+    image: ghcr.io/robycek/aurora-server-private:1.0.130@sha256:ef069ff32e74bc3c236d2d6337f460b404853f8c3a215d1ce6a72bf6cf0a523a
     restart: on-failure
     init: true
     read_only: true
@@ -114,10 +115,18 @@ services:
       retries: 3
       start_period: 30s
 
+  ollama:
+    image: ollama/ollama:0.32.15@sha256:57d60e686821ea81a7748a3ec8141308c8b8f95b27105713954abf7a6529e700
+    profiles: ["intelligenza_locale"]
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/ollama:/root/.ollama
+
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.129@sha256:8e158f2d5b90e7f85e7299d9af306f688a019d724dac7f84be20f9dec2308178
+    image: ghcr.io/robycek/aurora-server-private:1.0.130@sha256:ef069ff32e74bc3c236d2d6337f460b404853f8c3a215d1ce6a72bf6cf0a523a
+    profiles: ["intelligenza_locale"]
     restart: on-failure
     init: true
     read_only: true
@@ -131,11 +140,13 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      ollama:
+        condition: service_started
     environment:
       DATABASE_URL: postgresql://aurora:${APP_PRISMA_AURORA_POSTGRES_PASSWORD}@prisma-aurora_postgres_1:5432/aurora
-      # Endpoint documentato dall'app Ollama ufficiale di Umbrel. Il 4B
-      # occupa circa la metà del 9B ed evita di saturare i 16 GB del server.
-      OLLAMA_URL: http://ollama_ollama_1:11434
+      # Il 4B occupa circa la metà del 9B ed evita di saturare i 16 GB del
+      # server. Motore e worker vengono installati dal Server Manager.
+      OLLAMA_URL: http://ollama:11434
       OLLAMA_MODEL: qwen3.5:4b
     command: ["python", "worker_intelligenza.py"]
 
@@ -236,7 +247,7 @@ services:
         done
 
   manager_agent:
-    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.129@sha256:f4bf66f4a6e918183e039d5f56bb015351148c787dbe0cdf6cb90e25bce31dff
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.130@sha256:efa09eb231c34b31258fdf30c87c7b319961e79c6b2904f2af25461ba79e1a46
     restart: on-failure
     user: "0:10001"
     read_only: true
@@ -252,7 +263,9 @@ services:
     environment:
       AURORA_MANAGER_AGENT_KEY: ${APP_PRISMA_AURORA_MANAGER_AGENT_KEY}
       AURORA_MANAGER_NOME_COMPUTER: Server Umbrel
-      AURORA_MANAGER_COMPOSE: /installazione
+      # Lo stesso percorso assoluto esiste nel contenitore e sull'host, così
+      # Compose conserva correttamente i volumi persistenti dell'app Umbrel.
+      AURORA_MANAGER_COMPOSE: ${APP_DATA_DIR}
       AURORA_MANAGER_DATI: /dati
       AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
       AURORA_MANAGER_COMANDI: /manager/comandi
@@ -266,6 +279,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/installazione:ro
+      - ${APP_DATA_DIR}:${APP_DATA_DIR}:ro
       - ${APP_DATA_DIR}/data:/dati
       - ${APP_DATA_DIR}/data/server-manager:/manager
     command: ["--intervallo", "30"]
