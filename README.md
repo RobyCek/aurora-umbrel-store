@@ -32,13 +32,17 @@ Usa sempre lo stesso indirizzo Tailscale, anche in casa: alternarlo con
 risolvere un problema di collegamento, perché la disinstallazione coinvolge i
 dati dell'app; contatta prima Prisma Informatica.
 
-I dati stanno in `app-data/prisma-aurora/data/db` (il database),
+I dati stanno in `app-data/prisma-aurora/data/db` (il database) e
 `app-data/prisma-aurora/data/backup` (un backup ogni notte alle 02:00, ne
-restano trenta) e `app-data/prisma-aurora/data/ollama` (il modello locale):
-tutti rientrano nei backup di umbrelOS. Al primo avvio il modello viene
-scaricato automaticamente; sono diversi gigabyte e puo' richiedere alcuni
-minuti. Da quel momento iPhone e iPad usano l'Intelligenza di Umbrel senza
-lasciare Aurora aperta sul Mac.
+restano trenta): entrambi rientrano nei backup di umbrelOS. L'Intelligenza
+locale non viene scaricata durante la prima installazione. Quando
+l'amministratore sceglie **Installa sul server** in Aurora Server Manager,
+Ollama e il worker vengono aggiunti con una procedura guidata; i modelli sono
+conservati in `app-data/prisma-aurora/data/ollama` e rientrano anch'essi nei
+backup di umbrelOS. Il download è di diversi gigabyte e può richiedere alcuni
+minuti, perciò il Manager mostra sempre fase, tempo trascorso ed esito. Da
+quel momento iPhone e iPad usano l'Intelligenza di Umbrel senza lasciare
+Aurora aperta sul Mac.
 
 Per la Posta Google, Aurora Server legge facoltativamente
 `app-data/prisma-aurora/data/config/google_oauth.env`. Il file resta nei dati
@@ -87,8 +91,9 @@ dispositivo e quindi non è presente nella radice di questo repository. Inoltre
 il solo `manager_agent` monta il socket Docker: serve a leggere lo stato reale
 dei servizi e a eseguire backup e verifiche richiesti dal Server Manager. Il
 backend pubblico non vede il socket; l'agente è senza rete, in sola lettura,
-senza privilegi aggiuntivi salvo `CHOWN`, accetta soltanto tre operazioni
-predefinite firmate HMAC e non espone alcun comando shell generico.
+senza privilegi aggiuntivi salvo `CHOWN`, accetta soltanto un catalogo chiuso
+di operazioni predefinite firmate HMAC e non espone alcun comando shell
+generico.
 
 ## L'icona
 

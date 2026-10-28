@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.132"
+version: "1.0.133"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -13,10 +13,12 @@ description: >-
 
 
   Questa app installa il server di Aurora sul tuo Umbrel: il database
-  PostgreSQL con i dati, il server che le app di Aurora interrogano, il
-  l'installazione guidata dell'Intelligenza locale e un backup automatico ogni notte
-  (ne restano trenta, nella cartella dell'app, compresi nei backup di
-  umbrelOS).
+  PostgreSQL con i dati, il server che le app di Aurora interrogano, Aurora
+  Server Manager e un backup automatico ogni notte (ne restano trenta, nella
+  cartella dell'app, compresi nei backup di umbrelOS). L'Intelligenza locale
+  non viene scaricata durante la prima installazione: l'amministratore può
+  aggiungerla in seguito dal Server Manager, con una procedura guidata e lo
+  stato di avanzamento sempre visibile.
 
 
   Dopo l'installazione apri Aurora Server Manager dalla schermata di Umbrel: la pagina di
@@ -30,13 +32,16 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Allinea Aurora Server Manager al nuovo installatore guidato: Umbrel viene
-  presentato come server aziendale già pronto, con spiegazioni semplici su
-  dati, manutenzione, continuità e Intelligenza locale. Database, allegati,
-  configurazioni e copie esistenti restano intatti.
+  L'Intelligenza locale non viene più scaricata durante la prima installazione:
+  l'amministratore la aggiunge in seguito dal Server Manager. Il pannello mostra
+  l'avanzamento reale del download, conserva lo stato quando la pagina viene
+  chiusa e dichiara il servizio pronto soltanto dopo aver verificato il modello.
+  Database, allegati, configurazioni, backup e modelli già presenti restano
+  intatti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
+dependencies: []
 repo: https://github.com/RobyCek/aurora-umbrel-store
 support: mailto:info@xprisma.it
 

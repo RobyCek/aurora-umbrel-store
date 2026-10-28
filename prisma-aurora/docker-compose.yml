@@ -61,7 +61,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.132@sha256:88ec8ae5ae3f5f8a34ad095ca38365eb399c2abd741417d05655869f0640e1ff
+    image: ghcr.io/robycek/aurora-server-private:1.0.133@sha256:4df3e323c209c6c33ff56c338eeca75cbf28e6e66d3767430dc2d3a541a470e0
     restart: on-failure
     init: true
     read_only: true
@@ -125,7 +125,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.132@sha256:88ec8ae5ae3f5f8a34ad095ca38365eb399c2abd741417d05655869f0640e1ff
+    image: ghcr.io/robycek/aurora-server-private:1.0.133@sha256:4df3e323c209c6c33ff56c338eeca75cbf28e6e66d3767430dc2d3a541a470e0
     profiles: ["intelligenza_locale"]
     restart: on-failure
     init: true
@@ -247,7 +247,7 @@ services:
         done
 
   manager_agent:
-    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.132@sha256:bc765de6fa80bd2b5bfcc2bfa6f4b2d0b7b36b3c3dcf5898a81fdaf4c01ef744
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.133@sha256:1c066b5ec03addd15a005bd1b50e9645461cba3b87f5272d8cd8d45ff5171bcb
     restart: on-failure
     user: "0:10001"
     read_only: true
@@ -270,6 +270,7 @@ services:
       AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
       AURORA_MANAGER_COMANDI: /manager/comandi
       AURORA_MANAGER_CONFIG_BACKUP: /manager/backup.env
+      AURORA_MANAGER_MODELLO_INTELLIGENZA: qwen3.5:4b
       APP_DATA_DIR: ${APP_DATA_DIR}
       APP_PASSWORD: ${APP_PASSWORD}
       APP_PRISMA_AURORA_POSTGRES_PASSWORD: ${APP_PRISMA_AURORA_POSTGRES_PASSWORD}
