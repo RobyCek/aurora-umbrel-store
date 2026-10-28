@@ -14,6 +14,8 @@
 #               ne tiene 30, e uno subito al primo avvio.
 #   ai_worker   ritira dal database i lavori chiesti dai dispositivi mobili e
 #               usa l'app Ollama ufficiale di Umbrel.
+#   manager_agent osserva i servizi ed esegue soltanto le manutenzioni
+#               dichiarate dal pannello Server Manager.
 #
 # I segreti (password del database, chiave segreta) li genera Umbrel da sé:
 # vedi `exports.sh`. I nomi `prisma-aurora_<servizio>_1` sono quelli che
@@ -58,7 +60,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.119@sha256:b7193c6c5dc6a56d6fcd39d099a661bd78600e51e9fa572448c038be485474d4
+    image: ghcr.io/robycek/aurora-server-private:1.0.123@sha256:1524b86a164a42933fbaaf584639b4ac96017e0ed2c486ed046209b080ee920b
     restart: on-failure
     init: true
     read_only: true
@@ -91,10 +93,16 @@ services:
       AURORA_CORS_ORIGINI: ""
       ALGORITHM: HS256
       PORT: "8000"
+      AURORA_MANAGER_AGENT_KEY: ${APP_PRISMA_AURORA_MANAGER_AGENT_KEY}
+      AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
+      AURORA_MANAGER_COMANDI: /manager/comandi
+      AURORA_MANAGER_CONFIG_BACKUP: /manager/backup.env
       # La pagina di stato legge da qui la data dell'ultimo backup.
       AURORA_CARTELLA_BACKUP: /backup
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup:ro
+      - ${APP_DATA_DIR}/data/server-manager:/manager:ro
+      - ${APP_DATA_DIR}/data/server-manager/comandi:/manager/comandi
     networks:
       default:
         aliases:
@@ -109,7 +117,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.119@sha256:b7193c6c5dc6a56d6fcd39d099a661bd78600e51e9fa572448c038be485474d4
+    image: ghcr.io/robycek/aurora-server-private:1.0.123@sha256:1524b86a164a42933fbaaf584639b4ac96017e0ed2c486ed046209b080ee920b
     restart: on-failure
     init: true
     read_only: true
@@ -144,8 +152,10 @@ services:
       PGDATABASE: aurora
       BACKUP_ORA: "02:00"
       BACKUP_QUANTI: "30"
+      BACKUP_CONFIG: /manager/backup.env
     volumes:
       - ${APP_DATA_DIR}/data/backup:/backup
+      - ${APP_DATA_DIR}/data/server-manager:/manager:ro
     # Lo script del backup sta QUI dentro e non in un file a parte: Umbrel,
     # quando aggiorna un'app, ricopia solo docker-compose.yml, exports.sh,
     # i template e gli hook — un `backup.sh` accanto resterebbe quello della
@@ -156,46 +166,105 @@ services:
     command:
       - |
         set -u
-        ORA="$${BACKUP_ORA:-02:00}"
-        QUANTI="$${BACKUP_QUANTI:-30}"
+        ORA_PREDEFINITA="$${BACKUP_ORA:-02:00}"
+        QUANTI_PREDEFINITI="$${BACKUP_QUANTI:-30}"
+        CONFIGURAZIONE="$${BACKUP_CONFIG:-/manager/backup.env}"
+        ORA="$${ORA_PREDEFINITA}"
+        QUANTI="$${QUANTI_PREDEFINITI}"
         CARTELLA="/backup"
+
+        carica_configurazione() {
+          ORA="$${ORA_PREDEFINITA}"
+          QUANTI="$${QUANTI_PREDEFINITI}"
+          if [ -r "$${CONFIGURAZIONE}" ]; then
+            while IFS='=' read -r chiave valore; do
+              case "$${chiave}" in
+                BACKUP_ORA) ORA="$${valore}" ;;
+                BACKUP_QUANTI) QUANTI="$${valore}" ;;
+              esac
+            done < "$${CONFIGURAZIONE}"
+          fi
+          case "$${ORA}" in
+            [01][0-9]:[0-5][0-9]|2[0-3]:[0-5][0-9]) ;;
+            *) ORA="$${ORA_PREDEFINITA}" ;;
+          esac
+          case "$${QUANTI}" in
+            ''|*[!0-9]*) QUANTI="$${QUANTI_PREDEFINITI}" ;;
+          esac
+          if [ "$${QUANTI}" -lt 2 ] || [ "$${QUANTI}" -gt 365 ]; then
+            QUANTI="$${QUANTI_PREDEFINITI}"
+          fi
+        }
 
         fai_backup() {
           nome="$${CARTELLA}/aurora_$$(date +%Y%m%d_%H%M).dump"
           tmp="$${nome}.parziale"
           echo "[backup] $$(date '+%d/%m/%Y %H:%M') inizio → $${nome}"
-          if pg_dump -Fc -f "$${tmp}" && [ -s "$${tmp}" ]; then
+          if pg_dump -Fc -f "$${tmp}" && [ -s "$${tmp}" ] && \
+             pg_restore -l "$${tmp}" >/dev/null 2>&1; then
             mv "$${tmp}" "$${nome}"
             echo "[backup] fatto ($$(du -h "$${nome}" | cut -f1))"
             ls -1 "$${CARTELLA}"/aurora_*.dump 2>/dev/null | sort | head -n -"$${QUANTI}" | while read -r vecchio; do
               rm -f "$${vecchio}" && echo "[backup] tolto $${vecchio}"
             done
-          else
-            rm -f "$${tmp}"
-            echo "[backup] FALLITO: il database non ha risposto. Riprovo alla prossima ora prevista."
+            return 0
           fi
-        }
-
-        secondi_fino_a() {
-          ora_h="$${1%%:*}"; ora_m="$${1##*:}"
-          adesso=$$(date +%s)
-          oggi=$$(date -d "$$(date +%Y-%m-%d) $${ora_h}:$${ora_m}:00" +%s 2>/dev/null)
-          if [ -z "$${oggi}" ]; then
-            echo 86400; return
-          fi
-          if [ "$${oggi}" -le "$${adesso}" ]; then
-            oggi=$$((oggi + 86400))
-          fi
-          echo $$((oggi - adesso))
+          rm -f "$${tmp}"
+          echo "[backup] FALLITO: il database non ha risposto. Riprovo alla prossima ora prevista."
+          return 1
         }
 
         mkdir -p "$${CARTELLA}"
+        carica_configurazione
         if ! ls "$${CARTELLA}"/aurora_*.dump >/dev/null 2>&1; then
           fai_backup
         fi
+        echo "[backup] controllo programmazione attivo (alle $${ORA}, $${QUANTI} copie)"
         while true; do
-          attesa=$$(secondi_fino_a "$${ORA}")
-          echo "[backup] prossimo backup fra $$((attesa / 3600)) h $$(((attesa % 3600) / 60)) min (alle $${ORA})"
-          sleep "$${attesa}"
-          fai_backup
+          carica_configurazione
+          giorno=$$(date +%Y-%m-%d)
+          if [ "$$(date +%H:%M)" = "$${ORA}" ]; then
+            ultimo=""
+            [ -r "$${CARTELLA}/.ultima_programmazione" ] && ultimo=$$(cat "$${CARTELLA}/.ultima_programmazione")
+            if [ "$${ultimo}" != "$${giorno}" ]; then
+              if fai_backup; then
+                printf '%s\n' "$${giorno}" > "$${CARTELLA}/.ultima_programmazione"
+              fi
+            fi
+          fi
+          sleep 30
         done
+
+  manager_agent:
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.123@sha256:98a0c0acf249c88e32cc103a96177f6a81e56456c858762b16c5bd12ae42da46
+    restart: on-failure
+    user: "0:0"
+    read_only: true
+    network_mode: none
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    environment:
+      AURORA_MANAGER_AGENT_KEY: ${APP_PRISMA_AURORA_MANAGER_AGENT_KEY}
+      AURORA_MANAGER_COMPOSE: /installazione
+      AURORA_MANAGER_DATI: /dati
+      AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
+      AURORA_MANAGER_COMANDI: /manager/comandi
+      AURORA_MANAGER_CONFIG_BACKUP: /manager/backup.env
+      APP_DATA_DIR: ${APP_DATA_DIR}
+      APP_PASSWORD: ${APP_PASSWORD}
+      APP_PRISMA_AURORA_POSTGRES_PASSWORD: ${APP_PRISMA_AURORA_POSTGRES_PASSWORD}
+      APP_PRISMA_AURORA_SECRET_KEY: ${APP_PRISMA_AURORA_SECRET_KEY}
+      APP_PRISMA_AURORA_JWT_SIGNING_KEY: ${APP_PRISMA_AURORA_JWT_SIGNING_KEY}
+      APP_PRISMA_AURORA_MANAGER_AGENT_KEY: ${APP_PRISMA_AURORA_MANAGER_AGENT_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/installazione:ro
+      - ${APP_DATA_DIR}/data:/dati
+      - ${APP_DATA_DIR}/data/server-manager:/manager
+    command: ["--intervallo", "30"]

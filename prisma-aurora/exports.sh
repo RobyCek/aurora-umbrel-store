@@ -18,3 +18,4 @@
 export APP_PRISMA_AURORA_POSTGRES_PASSWORD="$(derive_entropy "${app_entropy_identifier}-postgres-password")"
 export APP_PRISMA_AURORA_SECRET_KEY="$(derive_entropy "${app_entropy_identifier}-secret-key")"
 export APP_PRISMA_AURORA_JWT_SIGNING_KEY="$(derive_entropy "${app_entropy_identifier}-jwt-signing-key")"
+export APP_PRISMA_AURORA_MANAGER_AGENT_KEY="$(derive_entropy "${app_entropy_identifier}-manager-agent-key")"

@@ -59,10 +59,11 @@ utenti. Non vanno inserite nel repository né mostrate nei log.
    tag `vX.Y.Z`, push del tag → l'azione GitHub pubblica
    `ghcr.io/robycek/aurora-server-private:X.Y.Z`.
 2. Qui: scrivi `X.Y.Z` in `prisma-aurora/umbrel-app.yml` (`version`) e nella
-   riga `image:` del server in `prisma-aurora/docker-compose.yml`, con il
-   digest accanto al tag (Umbrel accetta solo immagini fissate così). Il
-   digest lo scrive il riepilogo dell'azione GitHub che ha costruito
-   l'immagine; oppure lo chiedi all'Umbrel, che Docker ce l'ha (sul Mac no):
+   righe `image:` di server, worker e agente in
+   `prisma-aurora/docker-compose.yml`, con i digest accanto ai tag (Umbrel
+   accetta solo immagini fissate così). I digest li scrive il riepilogo
+   dell'azione GitHub che ha costruito le immagini; oppure li chiedi
+   all'Umbrel, che Docker ce l'ha (sul Mac no):
 
        ssh -t umbrel@umbrel.local "sudo docker buildx imagetools inspect ghcr.io/robycek/aurora-server-private:X.Y.Z --format '{{.Manifest.Digest}}'"
 
@@ -79,6 +80,15 @@ Prima di pubblicare, il linter ufficiale di Umbrel (dal repository
 Con `--check-images` in più il linter interroga anche i registri. L'immagine
 Aurora deve contenere almeno `linux/amd64` e `linux/arm64` nello stesso indice
 multi-arch fissato dal digest.
+
+Il negozio è comunitario e include due eccezioni intenzionali al catalogo
+ufficiale Umbrel. La dipendenza `ollama` appartiene al catalogo installato sul
+dispositivo e quindi non è presente nella radice di questo repository. Inoltre
+il solo `manager_agent` monta il socket Docker: serve a leggere lo stato reale
+dei servizi e a eseguire backup e verifiche richiesti dal Server Manager. Il
+backend pubblico non vede il socket; l'agente è senza rete, in sola lettura,
+senza privilegi aggiuntivi salvo `CHOWN`, accetta soltanto tre operazioni
+predefinite firmate HMAC e non espone alcun comando shell generico.
 
 ## L'icona
 
