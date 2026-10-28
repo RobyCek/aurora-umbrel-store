@@ -60,7 +60,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.128@sha256:f269e50cafc17f36574df5dc52852c0477749e37e743526f0d3fcccdcc0470f9
+    image: ghcr.io/robycek/aurora-server-private:1.0.129@sha256:8e158f2d5b90e7f85e7299d9af306f688a019d724dac7f84be20f9dec2308178
     restart: on-failure
     init: true
     read_only: true
@@ -117,7 +117,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.128@sha256:f269e50cafc17f36574df5dc52852c0477749e37e743526f0d3fcccdcc0470f9
+    image: ghcr.io/robycek/aurora-server-private:1.0.129@sha256:8e158f2d5b90e7f85e7299d9af306f688a019d724dac7f84be20f9dec2308178
     restart: on-failure
     init: true
     read_only: true
@@ -236,7 +236,7 @@ services:
         done
 
   manager_agent:
-    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.128@sha256:222a31d56874f847021f3463079efe8e010c25a35510dcbdf2708a1ec28db176
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.129@sha256:f4bf66f4a6e918183e039d5f56bb015351148c787dbe0cdf6cb90e25bce31dff
     restart: on-failure
     user: "0:10001"
     read_only: true
@@ -251,6 +251,7 @@ services:
       - /tmp:size=32m,mode=1777
     environment:
       AURORA_MANAGER_AGENT_KEY: ${APP_PRISMA_AURORA_MANAGER_AGENT_KEY}
+      AURORA_MANAGER_NOME_COMPUTER: Server Umbrel
       AURORA_MANAGER_COMPOSE: /installazione
       AURORA_MANAGER_DATI: /dati
       AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
