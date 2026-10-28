@@ -1,9 +1,9 @@
 manifestVersion: 1
 id: prisma-aurora
 category: files
-name: Aurora
-version: "1.0.127"
-tagline: Il CRM di Prisma Informatica, sul tuo server di casa
+name: Aurora Server Manager
+version: "1.0.128"
+tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
   Aurora è il gestionale dei contatti (CRM) di Prisma Informatica: persone,
@@ -19,7 +19,7 @@ description: >-
   umbrelOS).
 
 
-  Dopo l'installazione apri Aurora dalla schermata di Umbrel: la pagina di
+  Dopo l'installazione apri Aurora Server Manager dalla schermata di Umbrel: la pagina di
   stato ti chiede di creare il primo utente (l'amministratore). Usa come
   «codice primo accesso» la password che umbrelOS mostra nella scheda di
   Aurora. La pagina ti mostra poi
@@ -30,10 +30,11 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Completa Aurora Server Manager: controllo visivo di servizi, utenti,
-  dispositivi, database e backup, agente locale ristretto compatibile con le
-  cartelle private di Umbrel e manutenzioni limitate al solo progetto Aurora.
-  Database, allegati, configurazioni e copie esistenti restano intatti.
+  Rende Aurora Server Manager immediatamente riconoscibile con il nuovo nome
+  e l'icona arancione. Il pannello controlla servizi, utenti, dispositivi,
+  database e backup; l'agente locale resta ristretto alle sole manutenzioni
+  del progetto Aurora. Database, allegati, configurazioni e copie esistenti
+  restano intatti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
