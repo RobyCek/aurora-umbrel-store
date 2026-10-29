@@ -61,7 +61,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.133@sha256:4df3e323c209c6c33ff56c338eeca75cbf28e6e66d3767430dc2d3a541a470e0
+    image: ghcr.io/robycek/aurora-server-private:1.0.137@sha256:8d4a1020a686351d107ab46edf6036d1d579a5ebd08044266d5708bf7358d4e6
     restart: on-failure
     init: true
     read_only: true
@@ -98,6 +98,8 @@ services:
       AURORA_MANAGER_STATO_AGENTE: /manager/stato.json
       AURORA_MANAGER_COMANDI: /manager/comandi
       AURORA_MANAGER_CONFIG_BACKUP: /manager/backup.env
+      AURORA_MANAGER_STATO_SERVER: /manager/comandi/server-stato.txt
+      AURORA_MANAGER_MODELLO_INTELLIGENZA: qwen3.5:4b
       # La pagina di stato legge da qui la data dell'ultimo backup.
       AURORA_CARTELLA_BACKUP: /backup
     volumes:
@@ -125,7 +127,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.133@sha256:4df3e323c209c6c33ff56c338eeca75cbf28e6e66d3767430dc2d3a541a470e0
+    image: ghcr.io/robycek/aurora-server-private:1.0.137@sha256:8d4a1020a686351d107ab46edf6036d1d579a5ebd08044266d5708bf7358d4e6
     profiles: ["intelligenza_locale"]
     restart: on-failure
     init: true
@@ -247,7 +249,7 @@ services:
         done
 
   manager_agent:
-    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.133@sha256:1c066b5ec03addd15a005bd1b50e9645461cba3b87f5272d8cd8d45ff5171bcb
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.137@sha256:1f7caf88e25f4af5a83f18528da8f942af50a02adbd03ecce58bc5026943f511
     restart: on-failure
     user: "0:10001"
     read_only: true
