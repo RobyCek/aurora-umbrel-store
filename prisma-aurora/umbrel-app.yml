@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.141"
+version: "1.0.142"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
