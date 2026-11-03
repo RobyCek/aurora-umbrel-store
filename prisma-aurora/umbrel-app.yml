@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.143"
+version: "1.0.144"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -32,8 +32,8 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiorna Aurora Server e Server Manager alla versione 1.0.143, con le nuove
-  integrazioni documentali e i miglioramenti di compatibilità di Aurora.
+  Aggiorna Aurora Server e Server Manager alla versione 1.0.144, correggendo
+  la sincronizzazione delle gerarchie e dei colori di AU-Etichette.
   Database, allegati, configurazioni, backup, Intelligenza locale e modelli
   già presenti restano intatti.
 
