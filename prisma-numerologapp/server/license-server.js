@@ -263,7 +263,11 @@ function corsHeaders(request, allowedOrigins) {
 }
 
 async function serveStatic(response, webDir, pathname) {
-  const requested = pathname === '/' ? '/index.html' : pathname === '/admin' ? '/admin/index.html' : pathname;
+  const requested = pathname === '/'
+    ? '/index.html'
+    : (pathname === '/admin' || pathname === '/admin/')
+      ? '/admin/index.html'
+      : pathname;
   const relative = normalize(decodeURIComponent(requested)).replace(/^[/\\]+/, '');
   const filePath = resolve(webDir, relative);
   if (filePath !== webDir && !filePath.startsWith(`${webDir}${sep}`)) return false;

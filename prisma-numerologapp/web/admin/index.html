@@ -3,73 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0d0d1a">
+  <meta name="theme-color" content="#0b0b18">
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="./admin/admin.css?v=1.2.1">
-  <title>Licenze · NumerologApp</title>
+  <link rel="stylesheet" href="./admin.css?v=dashboard-2">
+  <title>Licenze clienti · NumerologApp</title>
 </head>
 <body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
   <main class="admin-shell">
     <header class="admin-header">
-      <div>
-        <p class="eyebrow">NumerologApp</p>
-        <h1>Gestione licenze</h1>
+      <a class="brand" href="../" aria-label="NumerologApp, pagina iniziale">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <span>
+          <strong>NumerologApp</strong>
+          <small>Amministrazione</small>
+        </span>
+      </a>
+      <div class="header-actions">
+        <span id="connection-status" class="connection-status" hidden>
+          <span class="connection-dot" aria-hidden="true"></span>
+          Server collegato
+        </span>
+        <button id="logout" class="button button-ghost" type="button" hidden>Blocca pannello</button>
       </div>
-      <button id="logout" class="button button-secondary" type="button" hidden>Blocca pannello</button>
     </header>
 
-    <section id="login-card" class="card auth-card">
-      <h2>Accesso amministratore</h2>
-      <p>Inserisci il token amministrativo generato dal server. Rimane soltanto in questa scheda.</p>
-      <form id="login-form">
-        <label for="admin-token">Token amministrativo</label>
-        <input id="admin-token" type="password" autocomplete="off" required>
-        <p id="login-error" class="error" role="alert"></p>
-        <button class="button button-primary" type="submit">Accedi</button>
-      </form>
+    <section id="login-card" class="login-layout">
+      <div class="login-intro">
+        <p class="eyebrow">Area riservata</p>
+        <h1>Licenze clienti,<br><span>senza complicazioni.</span></h1>
+        <p>Genera i codici, controlla le attivazioni e prepara il messaggio da inviare al cliente in un unico posto.</p>
+        <div class="security-note">
+          <span class="security-icon" aria-hidden="true">✓</span>
+          <span>Il token resta soltanto in questa scheda e non viene memorizzato nel browser.</span>
+        </div>
+      </div>
+
+      <div class="card auth-card">
+        <div class="card-heading">
+          <span class="section-icon" aria-hidden="true">↗</span>
+          <div>
+            <p class="eyebrow">Accesso</p>
+            <h2>Apri il gestionale</h2>
+          </div>
+        </div>
+        <p class="muted">Usa la <strong>Password predefinita</strong> mostrata da Umbrel quando apri NumerologApp.</p>
+        <form id="login-form" class="stack-form">
+          <label for="admin-token">Token amministrativo</label>
+          <div class="password-field">
+            <input id="admin-token" type="password" autocomplete="off" spellcheck="false" required autofocus>
+            <button id="toggle-token" class="field-action" type="button" aria-label="Mostra token">Mostra</button>
+          </div>
+          <p id="login-error" class="error" role="alert"></p>
+          <button class="button button-primary button-large" type="submit">
+            <span>Accedi alle licenze</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </div>
     </section>
 
     <div id="dashboard" hidden>
-      <section class="card create-card">
+      <section class="dashboard-hero">
         <div>
-          <p class="eyebrow">Nuove abilitazioni</p>
-          <h2>Crea codici</h2>
+          <p class="eyebrow">Pannello licenze</p>
+          <h1>Buon lavoro, Roberto.</h1>
+          <p class="hero-copy">Crea e consegna un’abilitazione personale in meno di un minuto.</p>
         </div>
-        <form id="create-form" class="create-form">
-          <label>Nome o riferimento
-            <input id="code-label" maxlength="120" placeholder="Es. Mario Rossi">
-          </label>
-          <label>Quantità
-            <input id="code-count" type="number" min="1" max="100" value="1" required>
-          </label>
-          <label>Dispositivi per codice
-            <input id="max-devices" type="number" min="1" max="20" value="1" required>
-          </label>
-          <button class="button button-primary" type="submit">Genera</button>
-        </form>
-        <p class="form-help">Per App Review usa 10 dispositivi, così lo stesso codice funziona per più revisori.</p>
-        <div id="new-codes" class="new-codes" hidden></div>
+        <button id="hero-create" class="button button-primary" type="button">
+          <span class="hero-button-plus" aria-hidden="true">+</span>
+          <span class="hero-button-label">Nuovo codice</span>
+        </button>
+      </section>
+
+      <section class="metrics-grid" aria-label="Riepilogo licenze">
+        <article class="metric-card metric-total">
+          <div class="metric-top"><span>Totali</span><span class="metric-icon" aria-hidden="true">◇</span></div>
+          <strong id="metric-total">0</strong>
+          <small>codici creati</small>
+        </article>
+        <article class="metric-card metric-active">
+          <div class="metric-top"><span>Attive</span><span class="metric-icon" aria-hidden="true">●</span></div>
+          <strong id="metric-active">0</strong>
+          <small>clienti abilitati</small>
+        </article>
+        <article class="metric-card metric-available">
+          <div class="metric-top"><span>Disponibili</span><span class="metric-icon" aria-hidden="true">＋</span></div>
+          <strong id="metric-available">0</strong>
+          <small>ancora da usare</small>
+        </article>
+        <article class="metric-card metric-revoked">
+          <div class="metric-top"><span>Revocate</span><span class="metric-icon" aria-hidden="true">×</span></div>
+          <strong id="metric-revoked">0</strong>
+          <small>accessi disattivati</small>
+        </article>
+      </section>
+
+      <section class="workspace-grid">
+        <article id="create-card" class="card create-card">
+          <div class="card-heading card-heading-spaced">
+            <div class="heading-group">
+              <span class="section-icon" aria-hidden="true">＋</span>
+              <div>
+                <p class="eyebrow">Nuova abilitazione</p>
+                <h2>Crea un codice cliente</h2>
+              </div>
+            </div>
+            <span class="step-badge">01</span>
+          </div>
+
+          <form id="create-form" class="create-form">
+            <label for="code-label">Cliente o riferimento
+              <input id="code-label" maxlength="120" placeholder="Es. Mario Rossi" autocomplete="off" required>
+            </label>
+            <div class="compact-fields">
+              <label for="code-count">Quantità
+                <input id="code-count" type="number" min="1" max="100" value="1" required>
+              </label>
+              <label for="max-devices">Dispositivi per codice
+                <input id="max-devices" type="number" min="1" max="20" value="1" required>
+              </label>
+            </div>
+            <p class="field-hint"><span aria-hidden="true">i</span> Per un cliente normale lascia 1 dispositivo. Usa più dispositivi soltanto per esigenze speciali.</p>
+            <p id="create-error" class="error" role="alert"></p>
+            <button class="button button-primary button-large" type="submit">
+              <span>Genera codice</span>
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+        </article>
+
+        <aside class="card delivery-card">
+          <div class="card-heading card-heading-spaced">
+            <div class="heading-group">
+              <span class="section-icon" aria-hidden="true">⌁</span>
+              <div>
+                <p class="eyebrow">Consegna</p>
+                <h2>Cosa riceve il cliente</h2>
+              </div>
+            </div>
+            <span class="step-badge">02</span>
+          </div>
+          <ol class="delivery-steps">
+            <li><span>1</span><div><strong>Link App Store</strong><small>Il collegamento diretto all’app non in elenco.</small></div></li>
+            <li><span>2</span><div><strong>Codice personale</strong><small>Il codice NUME appena generato.</small></div></li>
+            <li><span>3</span><div><strong>Prima attivazione</strong><small>Il codice si associa al dispositivo del cliente.</small></div></li>
+          </ol>
+          <a class="store-link" href="https://apps.apple.com/app/id6825358622" target="_blank" rel="noreferrer">
+            <span aria-hidden="true"></span>
+            <span><small>Disponibile su</small><strong>App Store</strong></span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        </aside>
+      </section>
+
+      <section id="new-codes" class="card generated-card" hidden aria-live="polite">
+        <div class="generated-heading">
+          <div>
+            <p class="eyebrow">Codici appena creati</p>
+            <h2>Copiali prima di chiudere la pagina</h2>
+          </div>
+          <button id="copy-all-codes" class="button button-secondary" type="button">Copia tutti</button>
+        </div>
+        <div class="important-note">
+          <span aria-hidden="true">!</span>
+          <p>Per sicurezza il codice completo viene mostrato solo adesso. Nell’archivio resteranno cliente e stato, ma non sarà possibile recuperare il codice.</p>
+        </div>
+        <div id="new-code-list" class="new-code-list"></div>
       </section>
 
       <section class="card list-card">
         <div class="list-heading">
           <div>
             <p class="eyebrow">Archivio</p>
-            <h2>Codici e dispositivi</h2>
+            <h2>Clienti e dispositivi</h2>
           </div>
-          <button id="refresh" class="button button-secondary" type="button">Aggiorna</button>
+          <button id="refresh" class="icon-button" type="button" aria-label="Aggiorna elenco" title="Aggiorna elenco">↻</button>
         </div>
+
+        <div class="toolbar">
+          <label class="search-field" for="license-search">
+            <span aria-hidden="true">⌕</span>
+            <input id="license-search" type="search" placeholder="Cerca cliente o dispositivo…" autocomplete="off">
+          </label>
+          <label class="filter-field" for="status-filter">
+            <span>Stato</span>
+            <select id="status-filter">
+              <option value="all">Tutti</option>
+              <option value="active">Attive</option>
+              <option value="available">Disponibili</option>
+              <option value="revoked">Revocate</option>
+            </select>
+          </label>
+        </div>
+
         <p id="dashboard-error" class="error" role="alert"></p>
         <div class="table-scroll">
           <table>
-            <thead><tr><th>Persona</th><th>Stato</th><th>Dispositivi</th><th>Attivazione</th><th>Azioni</th></tr></thead>
+            <thead>
+              <tr><th>Cliente</th><th>Stato</th><th>Dispositivo</th><th>Attivazione</th><th><span class="sr-only">Azioni</span></th></tr>
+            </thead>
             <tbody id="license-list"></tbody>
           </table>
         </div>
-        <p id="empty-list" class="empty">Nessun codice creato.</p>
+        <div id="empty-list" class="empty-state">
+          <span aria-hidden="true">◇</span>
+          <strong>Nessun codice trovato</strong>
+          <p>Crea il primo codice oppure modifica i filtri di ricerca.</p>
+        </div>
       </section>
     </div>
   </main>
-  <script type="module" src="./admin/admin.js?v=1.2.1"></script>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script type="module" src="./admin.js?v=dashboard-2"></script>
 </body>
 </html>
