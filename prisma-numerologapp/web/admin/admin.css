@@ -129,6 +129,8 @@ input:focus, select:focus { border-color: var(--gold); background: rgba(8, 8, 20
 .important-note { display: flex; align-items: flex-start; gap: 11px; margin: 20px 0 16px; border: 1px solid rgba(225,194,127,.16); border-radius: 13px; padding: 13px; color: #d6cfbf; background: rgba(225,194,127,.055); font-size: 11px; line-height: 1.5; }
 .important-note > span { display: grid; flex: 0 0 auto; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #191309; background: var(--gold); font-weight: 900; }
 .important-note p { margin: 1px 0 0; }
+.complete-message-note { margin: 0 0 14px; color: var(--muted-light); font-size: 11px; line-height: 1.5; }
+.complete-message-note strong { color: var(--gold-bright); }
 .new-code-list { display: grid; gap: 10px; }
 .new-code { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px; border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 15px; background: rgba(4,4,12,.45); }
 .new-code-meta { min-width: 0; }
@@ -204,7 +206,7 @@ tbody tr:hover { background: rgba(255,255,255,.018); }
   .compact-fields, .toolbar { grid-template-columns: 1fr; }
   .generated-heading { align-items: flex-start; }
   .new-code { grid-template-columns: 1fr; }
-  .new-code-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .new-code-actions { display: grid; grid-template-columns: minmax(100px, .65fr) minmax(0, 1.35fr); }
   .copy-button { min-height: 40px; }
   .table-scroll { overflow: visible; }
   table, thead, tbody, tr, td { display: block; }

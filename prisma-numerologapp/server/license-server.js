@@ -486,6 +486,22 @@ export async function createLicenseServer(options = {}) {
           return;
         }
 
+        const deleteMatch = url.pathname.match(/^\/api\/admin\/codes\/([^/]+)$/);
+        if (request.method === 'DELETE' && deleteMatch) {
+          const id = decodeURIComponent(deleteMatch[1]);
+          const index = store.state.codes.findIndex((entry) => entry.id === id);
+          if (index < 0) {
+            jsonResponse(response, 404, { error: 'Licenza non trovata.' }, securityHeaders());
+            return;
+          }
+          const [deleted] = store.state.codes.splice(index, 1);
+          await store.persist();
+          jsonResponse(response, 200, {
+            deleted: { id: deleted.id, label: deleted.label },
+          }, securityHeaders());
+          return;
+        }
+
         const actionMatch = url.pathname.match(/^\/api\/admin\/codes\/([^/]+)\/(revoke|reset)$/);
         if (request.method === 'POST' && actionMatch) {
           const entry = store.findById(decodeURIComponent(actionMatch[1]));
