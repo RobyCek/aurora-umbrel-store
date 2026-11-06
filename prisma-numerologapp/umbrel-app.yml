@@ -17,7 +17,9 @@ description: >-
 releaseNotes: >-
   Corregge il caricamento dello stile del pannello quando viene aperto
   direttamente dall'indirizzo /admin del NUC. L'interfaccia torna completa e
-  leggibile anche usando un vecchio preferito senza barra finale.
+  leggibile anche usando un vecchio preferito senza barra finale. Il token
+  amministrativo può ora restare memorizzato sul proprio telefono, con un
+  comando dedicato per rimuoverlo dal dispositivo.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []

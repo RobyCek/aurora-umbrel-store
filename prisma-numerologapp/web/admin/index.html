@@ -26,6 +26,7 @@
           <span class="connection-dot" aria-hidden="true"></span>
           Server collegato
         </span>
+        <button id="forget-token" class="button button-ghost" type="button" hidden>Dimentica token</button>
         <button id="logout" class="button button-ghost" type="button" hidden>Blocca pannello</button>
       </div>
     </header>
@@ -37,7 +38,7 @@
         <p>Genera i codici, controlla le attivazioni e prepara il messaggio da inviare al cliente in un unico posto.</p>
         <div class="security-note">
           <span class="security-icon" aria-hidden="true">✓</span>
-          <span>Il token resta soltanto in questa scheda e non viene memorizzato nel browser.</span>
+          <span>Il token viene salvato soltanto in questo browser. Puoi rimuoverlo in qualsiasi momento.</span>
         </div>
       </div>
 
@@ -219,6 +220,6 @@
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <script type="module" src="/admin/admin.js?v=dashboard-5"></script>
+  <script type="module" src="/admin/admin.js?v=dashboard-6"></script>
 </body>
 </html>
