@@ -209,6 +209,9 @@ async function loadCodes() {
 
 function showCreatedCodes(codes, label) {
   generatedCodes = codes.map((item) => ({ ...item, label }));
+  byId('copy-all-codes').textContent = generatedCodes.length === 1
+    ? 'Copia messaggio completo'
+    : 'Copia tutti i messaggi';
   const list = byId('new-code-list');
   list.replaceChildren();
 
@@ -236,8 +239,9 @@ function showCreatedCodes(codes, label) {
     const copyMessage = document.createElement('button');
     copyMessage.type = 'button';
     copyMessage.className = 'copy-button primary';
-    copyMessage.textContent = 'Copia messaggio';
-    copyMessage.addEventListener('click', () => copyText(deliveryMessage(item.code, item.label), 'Messaggio pronto da inviare'));
+    copyMessage.textContent = 'Copia messaggio completo';
+    copyMessage.setAttribute('aria-label', `Copia messaggio completo per ${item.label || 'il cliente'}`);
+    copyMessage.addEventListener('click', () => copyText(deliveryMessage(item.code, item.label), 'Messaggio completo pronto da inviare'));
     actions.append(copyCode, copyMessage);
 
     row.append(meta, actions);
@@ -328,8 +332,12 @@ byId('create-form').addEventListener('submit', async (event) => {
 });
 
 byId('copy-all-codes').addEventListener('click', () => {
-  const text = generatedCodes.map((item) => `${item.label || 'Cliente'}: ${item.code}`).join('\n');
-  copyText(text, 'Tutti i codici sono stati copiati');
+  const text = generatedCodes
+    .map((item) => deliveryMessage(item.code, item.label))
+    .join('\n\n———\n\n');
+  copyText(text, generatedCodes.length === 1
+    ? 'Messaggio completo pronto da inviare'
+    : 'Tutti i messaggi sono stati copiati');
 });
 
 byId('license-search').addEventListener('input', renderLicenses);
