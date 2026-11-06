@@ -1,4 +1,5 @@
 const APP_STORE_URL = 'https://apps.apple.com/app/id6825358622';
+const TOKEN_STORAGE_KEY = 'numerologapp-admin-token';
 
 let adminToken = '';
 let licenses = [];
@@ -43,6 +44,30 @@ function showToast(message) {
   toast.textContent = message;
   toast.hidden = false;
   toastTimer = setTimeout(() => { toast.hidden = true; }, 2300);
+}
+
+function readRememberedToken() {
+  try {
+    return localStorage.getItem(TOKEN_STORAGE_KEY)?.trim() ?? '';
+  } catch {
+    return '';
+  }
+}
+
+function rememberToken(token) {
+  try {
+    localStorage.setItem(TOKEN_STORAGE_KEY, token);
+  } catch {
+    // Il pannello continua a funzionare anche se il browser blocca lo spazio locale.
+  }
+}
+
+function forgetRememberedToken() {
+  try {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+  } catch {
+    // Nessun dato da rimuovere se lo spazio locale non è disponibile.
+  }
 }
 
 async function copyText(text, successMessage = 'Copiato negli appunti') {
@@ -199,7 +224,7 @@ async function loadCodes() {
     renderLicenses();
   } catch (loadError) {
     error.textContent = loadError.message;
-    if (/credenziale|token|autorizz/i.test(loadError.message)) logout();
+    if (/credenziale|token|autorizz/i.test(loadError.message)) logout({ forget: true });
     throw loadError;
   } finally {
     refresh.classList.remove('loading');
@@ -253,13 +278,24 @@ function showCreatedCodes(codes, label) {
   container.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function logout() {
+function showDashboard() {
+  byId('login-card').hidden = true;
+  byId('dashboard').hidden = false;
+  byId('logout').hidden = false;
+  byId('forget-token').hidden = false;
+  byId('connection-status').hidden = false;
+}
+
+function logout(options = {}) {
+  const { forget = false, focus = true } = options;
+  if (forget) forgetRememberedToken();
   adminToken = '';
   licenses = [];
   generatedCodes = [];
   byId('admin-token').value = '';
   byId('dashboard').hidden = true;
   byId('logout').hidden = true;
+  byId('forget-token').hidden = true;
   byId('connection-status').hidden = true;
   byId('login-card').hidden = false;
   byId('new-codes').hidden = true;
@@ -267,7 +303,7 @@ function logout() {
   byId('metric-active').textContent = '0';
   byId('metric-available').textContent = '0';
   byId('metric-revoked').textContent = '0';
-  byId('admin-token').focus();
+  if (focus) byId('admin-token').focus();
 }
 
 byId('toggle-token').addEventListener('click', () => {
@@ -292,10 +328,8 @@ byId('login-form').addEventListener('submit', async (event) => {
   button.disabled = true;
   try {
     await loadCodes();
-    byId('login-card').hidden = true;
-    byId('dashboard').hidden = false;
-    byId('logout').hidden = false;
-    byId('connection-status').hidden = false;
+    rememberToken(adminToken);
+    showDashboard();
   } catch (loginError) {
     error.textContent = loginError.message;
     adminToken = '';
@@ -354,4 +388,25 @@ byId('hero-create').addEventListener('click', () => {
   byId('create-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
   byId('code-label').focus({ preventScroll: true });
 });
-byId('logout').addEventListener('click', logout);
+byId('logout').addEventListener('click', () => logout());
+byId('forget-token').addEventListener('click', () => {
+  logout({ forget: true });
+  showToast('Token rimosso da questo dispositivo');
+});
+
+async function restoreRememberedSession() {
+  const rememberedToken = readRememberedToken();
+  if (!rememberedToken) return;
+  adminToken = rememberedToken;
+  try {
+    await loadCodes();
+    showDashboard();
+  } catch (error) {
+    if (adminToken) {
+      byId('login-error').textContent = `Accesso automatico non riuscito: ${error.message}`;
+      adminToken = '';
+    }
+  }
+}
+
+restoreRememberedSession();

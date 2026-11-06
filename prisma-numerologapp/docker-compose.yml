@@ -6,7 +6,7 @@ services:
       PROXY_AUTH_ADD: "false"
 
   server:
-    image: ghcr.io/robycek/numerologapp:1.2.3@sha256:375cc35cd418be77e1ce91b77b850f60432fc80d38ba48c4a1b7aa02dd431810
+    image: ghcr.io/robycek/numerologapp:1.2.4@sha256:c442a8607284055272eb9409c733109b2ffc8e9b63f15a7977fa37d5d89050e3
     # Umbrel crea i nuovi bind mount come root. L'override e necessario solo
     # per scrivere nel volume persistente; il container resta senza capability,
     # senza privilegi aggiuntivi e con filesystem di sistema in sola lettura.
