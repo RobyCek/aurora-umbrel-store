@@ -318,6 +318,16 @@ export async function createLicenseServer(options = {}) {
     const url = new URL(request.url ?? '/', `http://${request.headers.host ?? 'localhost'}`);
     const cors = corsHeaders(request, allowedOrigins);
     try {
+      if ((request.method === 'GET' || request.method === 'HEAD') && url.pathname === '/admin') {
+        response.writeHead(308, {
+          Location: '/admin/',
+          'Cache-Control': 'no-store',
+          ...securityHeaders(),
+        });
+        response.end();
+        return;
+      }
+
       if (request.method === 'OPTIONS' && url.pathname.startsWith('/api/')) {
         response.writeHead(204, { ...securityHeaders(), ...cors });
         response.end();
