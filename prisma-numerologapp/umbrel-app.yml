@@ -17,8 +17,9 @@ description: >-
 releaseNotes: >-
   Rende evidente il comando Copia messaggio completo dopo la creazione di una
   licenza. Il testo pronto da inviare include il link App Store, il codice
-  assegnato e le istruzioni per l'attivazione; anche la copia multipla ora
-  produce messaggi completi per ogni cliente.
+  assegnato e le istruzioni per l'attivazione. Aggiunge inoltre il comando
+  Elimina per rimuovere definitivamente nominativi e licenze creati per errore,
+  con una conferma prima della cancellazione.
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
 dependencies: []

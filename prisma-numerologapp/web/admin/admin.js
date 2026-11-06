@@ -164,21 +164,21 @@ function renderLicenses() {
         await updateLicense(`/api/admin/codes/${encodeURIComponent(license.id)}/reset`, 'Codice pronto per un nuovo dispositivo');
       }));
     }
-    if (!actions.childElementCount) {
-      const ready = document.createElement('span');
-      ready.className = 'date-cell';
-      ready.textContent = 'In attesa';
-      actions.append(ready);
-    }
+    actions.append(createAction('Elimina', 'danger', async () => {
+      const customer = license.label || 'questa licenza';
+      const confirmed = confirm(`Eliminare definitivamente ${customer}? Il nominativo sparirà dall’archivio e il codice non potrà più essere usato. L’operazione non si può annullare.`);
+      if (!confirmed) return;
+      await updateLicense(`/api/admin/codes/${encodeURIComponent(license.id)}`, 'Licenza eliminata', 'DELETE');
+    }));
 
     body.append(row);
   }
 }
 
-async function updateLicense(path, successMessage) {
+async function updateLicense(path, successMessage, method = 'POST') {
   byId('dashboard-error').textContent = '';
   try {
-    await api(path, { method: 'POST' });
+    await api(path, { method });
     await loadCodes();
     showToast(successMessage);
   } catch (error) {
