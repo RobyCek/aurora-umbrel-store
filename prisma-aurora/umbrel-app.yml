@@ -2,7 +2,7 @@ manifestVersion: 1
 id: prisma-aurora
 category: files
 name: Aurora Server Manager
-version: "1.0.147"
+version: "1.0.148"
 tagline: Controlla e gestisci Aurora Server sul tuo Umbrel
 icon: https://raw.githubusercontent.com/RobyCek/aurora-umbrel-store/main/prisma-aurora/icona.png
 description: >-
@@ -32,12 +32,9 @@ description: >-
 
   Fuori casa il server si raggiunge con l'app Tailscale di Umbrel.
 releaseNotes: >-
-  Aggiorna Aurora Server e Server Manager alla versione 1.0.147. Zero Carta
-  mostra l'avanzamento OCR reale per pagina e recupera i documenti con OCR
-  vuoto; Fatture legge correttamente i Rapporti commerciali storici. Database,
-  originali, allegati,
-  configurazioni, backup, Intelligenza locale e modelli già presenti restano
-  intatti.
+  Aggiorna Aurora Server e Server Manager alla versione 1.0.148. Zero Carta
+  riconosce i file grafici senza OCR e collega le cartelle ai nominativi; la
+  rotazione dei backup non elimina piu' le copie manuali.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
