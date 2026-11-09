@@ -61,7 +61,7 @@ services:
       start_period: 30s
 
   server:
-    image: ghcr.io/robycek/aurora-server-private:1.0.150@sha256:5aa4034d0ab9055f9c0cc23ad7c7decdc1b6b14f161b7d3b3a24b6d0215d58b7
+    image: ghcr.io/robycek/aurora-server-private:1.0.151@sha256:c0dc4f795178e70b9326e0c7ebcdc0f599920486e5298eb6e4fb443167b2151d
     restart: on-failure
     init: true
     read_only: true
@@ -127,7 +127,7 @@ services:
   ai_worker:
     # Stessa immagine del server: contiene il worker e tutte le dipendenze
     # Python gia' verificate. Non espone alcuna porta pubblica.
-    image: ghcr.io/robycek/aurora-server-private:1.0.150@sha256:5aa4034d0ab9055f9c0cc23ad7c7decdc1b6b14f161b7d3b3a24b6d0215d58b7
+    image: ghcr.io/robycek/aurora-server-private:1.0.151@sha256:c0dc4f795178e70b9326e0c7ebcdc0f599920486e5298eb6e4fb443167b2151d
     profiles: ["intelligenza_locale"]
     restart: on-failure
     init: true
@@ -249,7 +249,7 @@ services:
         done
 
   manager_agent:
-    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.150@sha256:2cff57a6ed0e0709f8e69c20782c2e597d16315a055b641473ab3db0e9cfb226
+    image: ghcr.io/robycek/aurora-server-manager-agent:1.0.151@sha256:f099425d0167a01c471369811f5c34456f1b7a1ab59d644b9876b1841dc32c34
     restart: on-failure
     user: "0:10001"
     read_only: true
