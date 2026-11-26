@@ -19,3 +19,8 @@ export APP_PRISMA_AURORA_POSTGRES_PASSWORD="$(derive_entropy "${app_entropy_iden
 export APP_PRISMA_AURORA_SECRET_KEY="$(derive_entropy "${app_entropy_identifier}-secret-key")"
 export APP_PRISMA_AURORA_JWT_SIGNING_KEY="$(derive_entropy "${app_entropy_identifier}-jwt-signing-key")"
 export APP_PRISMA_AURORA_MANAGER_AGENT_KEY="$(derive_entropy "${app_entropy_identifier}-manager-agent-key")"
+
+# Fuso orario dei contenitori (ora del backup notturno e degli orari nel
+# pannello). umbrelOS lavora di norma in UTC, quindi non si copia quello del
+# sistema: il negozio Prisma serve clienti italiani.
+export APP_PRISMA_AURORA_TZ="Europe/Rome"
