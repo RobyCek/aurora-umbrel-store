@@ -18,7 +18,9 @@ description: >-
   cartella dell'app, compresi nei backup di umbrelOS). L'Intelligenza locale
   non viene scaricata durante la prima installazione: l'amministratore può
   aggiungerla in seguito dal Server Manager, con una procedura guidata e lo
-  stato di avanzamento sempre visibile.
+  stato di avanzamento sempre visibile. Allo stesso modo si aggiunge, se
+  serve, il modulo facoltativo Zero Carta (archivio documentale con
+  lettura del testo dei documenti).
 
 
   Dopo l'installazione apri Aurora Server Manager dalla schermata di Umbrel: la pagina di
@@ -34,8 +36,9 @@ description: >-
 releaseNotes: >-
   Aggiorna Aurora Server e Server Manager alla versione 1.0.201. Copertine e
   foto delle schede, avatar illustrati delle Persone senza foto, raccolte
-  d'immagini dell'ufficio e varie correzioni, mantenendo protetti dati,
-  documenti e configurazioni.
+  d'immagini dell'ufficio e varie correzioni. Orari e backup notturno
+  nell'ora italiana; Zero Carta installabile dal Server Manager. Dati,
+  documenti e configurazioni restano protetti.
 
 developer: Prisma Informatica s.a.s.
 website: https://www.xprisma.it
